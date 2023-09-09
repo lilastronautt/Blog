@@ -1,0 +1,48 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 7rem;
+  background: #ffc017;
+}
+
+.nav_link__cont {
+  list-style: none;
+}
+
+.nav_link__cont li {
+  display: inline-block;
+  margin-left: 2rem;
+}
+
+.nav_link__cont li:hover {
+  cursor: pointer;
+}
+
+.nav_link__cont li:last-child {
+  background: black;
+  font-size: 1.2rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 2rem;
+  color: white;
+  border: 1px solid black;
+}
+
+.nav_link__cont li:last-child:hover {
+  background: white;
+  color: black;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 100;
+}
