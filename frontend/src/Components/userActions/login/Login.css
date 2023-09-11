@@ -45,8 +45,12 @@
   margin-bottom: 0.3rem;
 }
 
+/* .login_cont__form input:nth-child(1) {
+  margin-bottom: 2px;
+} */
+
 .login_cont__form input {
-  margin-bottom: 0.6rem;
+  margin-bottom: 1rem;
   padding: 0.3rem 1rem;
   border: none;
   border-bottom: 1px solid black;
@@ -55,6 +59,13 @@
 
 .login_cont__form input:focus-visible {
   outline: none;
+}
+
+.login_cont__error {
+  margin-bottom: 1rem;
+  margin-left: 0.3rem;
+  color: red;
+  font-size: 0.8rem;
 }
 
 .login_cont_formButton {

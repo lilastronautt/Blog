@@ -1,24 +1,19 @@
 import "./NavBar.css";
 import Login from "../userActions/login/Login";
 import Register from "../userActions/register/Register";
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { blogActions } from "../../store/store";
 
 const NavBar = () => {
-  // this code is temperory here
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
+  const dispatch = useDispatch();
+  const showLogin = useSelector((state) => state.showLogin);
+  const showBackdrop = useSelector((state) => state.showBackdrop);
+  const showRegistration = useSelector((state) => state.showRegistration);
   const onClickHandler = () => {
-    setShowLogin((prev) => !prev);
-    setShowRegister(() => false);
+    dispatch(blogActions.showLoginModal(true));
+    dispatch(blogActions.showBackdropModal(true));
   };
-  const closeHandler = () => {
-    setShowLogin(() => false);
-    setShowRegister(() => false);
-  };
-  const showRegHandler = () => {
-    setShowLogin(() => false);
-    setShowRegister((prev) => !prev);
-  };
+
   return (
     <>
       <nav className="nav">
@@ -30,10 +25,9 @@ const NavBar = () => {
           <li onClick={onClickHandler}>sign in</li>
         </ul>
       </nav>
-      {showLogin && <Login close={closeHandler} showReg={showRegHandler} />}
-      {showRegister && <Register close={closeHandler} />}
-      {showLogin && <div className="backdrop"></div>} {/** temp backdrop */}
-      {showRegister && <div className="backdrop"></div>} {/** temp backdrop */}
+      {showLogin && <Login />}
+      {showRegistration && <Register />}
+      {showBackdrop && <div className="backdrop"></div>}
     </>
   );
 };

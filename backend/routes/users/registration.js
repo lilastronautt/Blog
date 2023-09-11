@@ -14,12 +14,23 @@ router.post("/register", (req, res, next) => {
       [username, password],
       (error, results, fields) => {
         console.log(results);
+        if (error) {
+          res.json(error);
+        } else {
+          res.json("ok");
+        }
       }
     );
-    res.json("ok");
   } else {
     res.json("error");
   }
+});
+
+router.get("/usernames", (req, res, next) => {
+  db.query("SELECT username FROM users", [], (error, results, fields) => {
+    if (!error) res.json(results);
+    else res.json("Something went wrong");
+  });
 });
 
 module.exports = router;
