@@ -82,3 +82,12 @@
   background-color: white;
   color: black;
 }
+
+.login_cont__otherOp {
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.login_cont__otherOp:hover {
+  color: black;
+}

@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 const Register = () => {
+  const [btnMsg, setBtnMsg] = useState("Register");
+  const [errorMsg, setErrorMsg] = useState(false);
   const dispatch = useDispatch();
   const usernameExists = useSelector((state) => state.usernameExists);
   const passNotEqual = useSelector((state) => state.passNotEqual);
@@ -21,21 +23,24 @@ const Register = () => {
     });
   };
 
-  const [username, setUsernames] = useState({});
-
   useEffect(() => {
+    setErrorMsg(() => false);
     dispatch(blogActions.usernameExists(false));
     dispatch(blogActions.setPassNotEqual(false));
     //logic for checking if username exists or not
     let timer = setTimeout(async () => {
-      const usernamesRes = await fetch("http://localhost:3000/users/usernames");
-      const data = await usernamesRes.json();
-      setUsernames(() => data);
-      data.forEach((el) => {
-        if (el.username == formData.username) {
-          dispatch(blogActions.usernameExists(true));
-        }
-      });
+      try {
+        const usernamesRes = await fetch(
+          "http://localhost:3000/users/usernames"
+        );
+        const data = await usernamesRes.json();
+
+        data.forEach((el) => {
+          if (el.username == formData.username) {
+            dispatch(blogActions.usernameExists(true));
+          }
+        });
+      } catch (e) {}
     }, 800);
 
     return () => {
@@ -58,22 +63,35 @@ const Register = () => {
   const loginFormHandler = (e) => {
     dispatch(blogActions.setPassNotEqual(false));
     e.preventDefault();
+    if (usernameExists) {
+      return;
+    }
     if (formData.password != formData.confirmPassword) {
       dispatch(blogActions.setPassNotEqual(true));
     } else {
       const jsonRes = async () => {
-        const req = await fetch("http://localhost:3000/users/register", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-        const res = await req.json();
-        console.log(res);
+        try {
+          setBtnMsg(() => "Registering...");
+          const req = await fetch("http://localhost:3000/users/register", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+          const res = await req.json();
+          console.log(res.msg);
+          if (res.msg == "error") {
+            setErrorMsg(() => true);
+          }
+        } catch (e) {
+          setErrorMsg(() => true);
+        } finally {
+          setBtnMsg(() => "Register");
+        }
       };
-      // jsonRes();
+      jsonRes();
     }
   };
 
@@ -130,8 +148,12 @@ const Register = () => {
         {passNotEqual && (
           <div className="login_cont__error">Passwords do not match.</div>
         )}
+
+        {errorMsg && (
+          <div className="login_cont__error">Something went wrong.</div>
+        )}
         <button type="submit" className="login_cont_formButton">
-          Register
+          {btnMsg}
         </button>
       </form>
       <div className="login_cont__otherOp" onClick={showLog}>
