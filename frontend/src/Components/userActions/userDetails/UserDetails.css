@@ -1,0 +1,78 @@
+.userdeatils_cont {
+  position: fixed;
+  height: 98vh;
+  width: 40vw;
+  background: white;
+  left: 50%;
+  margin-left: -20vw;
+  top: 50%;
+  margin-top: -49vh;
+  z-index: 1000;
+  text-align: center;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.userdetails_cont__form {
+  width: 100%;
+  padding: 0 2rem;
+}
+
+.userdetails_cont__pairs {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userdeatils_cont label {
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.userdeatils_cont input {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.2rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  border: none;
+  border-bottom: 1px solid black;
+}
+
+.userdeatils_cont input:focus-visible {
+  outline: none;
+}
+
+.userdetails_btn {
+  padding: 0.4rem 1.8rem;
+  color: white;
+  background: black;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.userdetails_btn:hover {
+  color: black;
+  background: white;
+}
+
+select {
+  display: block;
+  margin: 1rem auto;
+  border: none;
+  border-bottom: 1px solid black;
+  padding: 0.2rem 0;
+  text-align: center;
+}
+
+select:focus-visible {
+  outline: none;
+}

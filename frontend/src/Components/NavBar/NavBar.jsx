@@ -3,6 +3,7 @@ import Login from "../userActions/login/Login";
 import Register from "../userActions/register/Register";
 import { useSelector, useDispatch } from "react-redux";
 import { blogActions } from "../../store/store";
+import UserDetails from "../userActions/userDetails/UserDetails";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const NavBar = () => {
       {showLogin && <Login />}
       {showRegistration && <Register />}
       {showBackdrop && <div className="backdrop"></div>}
+      <UserDetails />
     </>
   );
 };

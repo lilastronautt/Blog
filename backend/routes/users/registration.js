@@ -15,14 +15,14 @@ router.post("/register", (req, res, next) => {
       (error, results, fields) => {
         console.log(results);
         if (error) {
-          res.json(error);
+          res.json({ msg: "error" });
         } else {
-          res.json("ok");
+          res.json({ msg: "ok" });
         }
       }
     );
   } else {
-    res.json("error");
+    res.json({ msg: "error" });
   }
 });
 
