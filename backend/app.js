@@ -4,6 +4,8 @@ const helmet = require("helmet");
 const userRegRouter = require("./routes/users/registration");
 const userLogRouter = require("./routes/users/login");
 const userDetailsRouter = require("./routes/users/userDetails.js");
+const blogDetailsRouter = require("./routes/blog/blogDetails.js");
+const getUserDetails = require("./routes/users/getUserDetails.js");
 const cors = require("cors");
 
 const corsOption = {
@@ -16,6 +18,9 @@ app.use(helmet());
 app.use("/users", userRegRouter);
 app.use("/users", userLogRouter);
 app.use("/users", userDetailsRouter);
+app.use("/blog", blogDetailsRouter);
+app.use("/users", getUserDetails);
+
 app.use(cors());
 
 app.get("/", (req, res, next) => {

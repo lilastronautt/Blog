@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db/db");
+const multer = require("multer");
 
 router.post("/login", (req, res, next) => {
   console.log(req.body);

@@ -1,0 +1,41 @@
+.createBlog_cont {
+  margin: 2rem;
+  margin-top: 7rem;
+}
+
+.createBlog_cont__inputs {
+  margin-bottom: 3rem;
+}
+
+.createBlog_cont__inputs label {
+  font-size: 1.2rem;
+  color: grey;
+}
+
+.createBlog_cont__inputs input {
+  display: block;
+  margin-top: 0.5rem;
+  border: none;
+  border-bottom: 1px solid black;
+  padding: 0.3rem;
+  font-size: 1.2rem;
+  width: 30%;
+}
+
+.createBlog_cont__inputs input:focus-visible {
+  outline: none;
+}
+
+.createBlog_cont__btn {
+  margin-top: 3rem;
+  padding: 0.5rem 3.5rem;
+  background: black;
+  border: 1px solid black;
+  color: white;
+  cursor: pointer;
+}
+
+.createBlog_cont__btn:hover {
+  background: white;
+  color: black;
+}

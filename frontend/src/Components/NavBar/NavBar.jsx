@@ -4,6 +4,9 @@ import Register from "../userActions/register/Register";
 import { useSelector, useDispatch } from "react-redux";
 import { blogActions } from "../../store/store";
 import UserDetails from "../userActions/userDetails/UserDetails";
+import Profile from "../Profile/Profile";
+import CreateBlog from "../CreateBlog/CreateBlog";
+import { useState } from "react";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -15,21 +18,34 @@ const NavBar = () => {
     dispatch(blogActions.showBackdropModal(true));
   };
 
+  const [showCreateBlog, setShowCreateBlog] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const openCreateBlogPage = () => {
+    setShowCreateBlog(() => true);
+  };
+
+  const showProfileHandler = () => {
+    setShowProfile(() => true)
+  };
+
   return (
     <>
       <nav className="nav">
         <div className="nav_logo__cont">Blog Website</div>
         <ul className="nav_link__cont">
           <li>Something</li>
-          <li>Something</li>
-          <li>Something</li>
+
+          <li onClick={openCreateBlogPage}>Write a blog</li>
+          <li onClick={showProfileHandler}>Show profile</li>
           <li onClick={onClickHandler}>sign in</li>
         </ul>
       </nav>
       {showLogin && <Login />}
       {showRegistration && <Register />}
       {showBackdrop && <div className="backdrop"></div>}
-      <UserDetails />
+      {/* <UserDetails /> */}
+      {showCreateBlog && <CreateBlog />}
+      {showProfile && <Profile />}
     </>
   );
 };
