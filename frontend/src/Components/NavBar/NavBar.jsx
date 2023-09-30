@@ -4,9 +4,10 @@ import Register from "../userActions/register/Register";
 import { useSelector, useDispatch } from "react-redux";
 import { blogActions } from "../../store/store";
 import UserDetails from "../userActions/userDetails/UserDetails";
-import Profile from "../Profile/Profile";
+import MyProfile from "../MyProfile/MyProfile";
 import CreateBlog from "../CreateBlog/CreateBlog";
 import { useState } from "react";
+import Loader from "../../lib/Loader/Loader";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const NavBar = () => {
   };
 
   const showProfileHandler = () => {
-    setShowProfile(() => true)
+    setShowProfile(() => true);
   };
 
   return (
@@ -45,7 +46,7 @@ const NavBar = () => {
       {showBackdrop && <div className="backdrop"></div>}
       {/* <UserDetails /> */}
       {showCreateBlog && <CreateBlog />}
-      {showProfile && <Profile />}
+      {showProfile && <MyProfile />}
     </>
   );
 };

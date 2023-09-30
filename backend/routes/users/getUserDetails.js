@@ -5,7 +5,7 @@ const db = require("../db/db");
 
 router.use(cors());
 
-router.post("/getuserdetails/:username", (req, res, next) => {
+router.get("/getuserdetails/:username", (req, res, next) => {
   if (!req.params) res.json({ msg: "error" });
   else {
     db.query(

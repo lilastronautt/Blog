@@ -6,6 +6,7 @@ const userLogRouter = require("./routes/users/login");
 const userDetailsRouter = require("./routes/users/userDetails.js");
 const blogDetailsRouter = require("./routes/blog/blogDetails.js");
 const getUserDetails = require("./routes/users/getUserDetails.js");
+const getUserAllBlogsDetails = require("./routes/blog/getUserAllBlogsDetails.js");
 const cors = require("cors");
 
 const corsOption = {
@@ -18,8 +19,9 @@ app.use(helmet());
 app.use("/users", userRegRouter);
 app.use("/users", userLogRouter);
 app.use("/users", userDetailsRouter);
-app.use("/blog", blogDetailsRouter);
 app.use("/users", getUserDetails);
+app.use("/blog", blogDetailsRouter);
+app.use("/blog", getUserAllBlogsDetails);
 
 app.use(cors());
 

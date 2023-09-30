@@ -2,7 +2,7 @@
   position: fixed;
   height: 98vh;
   width: 40vw;
-  background: white;
+  background: #1a1a1b;
   left: 50%;
   margin-left: -20vw;
   top: 50%;
@@ -14,7 +14,7 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 5px 1px rgba(218, 215, 220, 0.3);
 }
 
 .login_cont__icon {
@@ -30,6 +30,7 @@
 
 .login_cont__msg {
   font-size: 2rem;
+  color: #d7dadc;
 }
 
 .login_cont__otherOp {
@@ -51,10 +52,16 @@
 
 .login_cont__form input {
   margin-bottom: 1rem;
-  padding: 0.3rem 1rem;
+  padding: 0.5rem 1rem;
   border: none;
-  border-bottom: 1px solid black;
-  border-radius: 8px;
+  background-color: #1a1a1b;
+  border: 1px solid #3a3b3d;
+  color: #d7dadc;
+}
+
+.login_cont__form input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #1a1a1b inset !important;
+  -webkit-text-fill-color: #d7dadc !important;
 }
 
 .login_cont__form input:focus-visible {
@@ -64,17 +71,18 @@
 .login_cont__error {
   margin-bottom: 1rem;
   margin-left: 0.3rem;
-  color: red;
+  color: #15cf81;
   font-size: 0.8rem;
 }
 
 .login_cont_formButton {
   width: 100%;
-  background-color: black;
-  color: white;
-  border: 1px solid black;
+  background-color: #dad7dc;
+  color: grey;
+  border: 1px solid #dad7dc;
   padding: 0.3rem;
   margin-top: 1rem;
+  border-radius: 8px;
   cursor: pointer;
 }
 
@@ -84,10 +92,10 @@
 }
 
 .login_cont__otherOp {
-  color: rgba(0, 0, 0, 0.5);
+  color: grey;
   cursor: pointer;
 }
 
 .login_cont__otherOp:hover {
-  color: black;
+  color: #d7dadc;
 }

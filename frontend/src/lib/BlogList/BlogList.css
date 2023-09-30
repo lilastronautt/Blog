@@ -1,0 +1,23 @@
+.profileblog_cont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #3a3b3d;
+  width: 45%;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+
+.profileblog_cont h3 {
+  color: #d7dadc;
+}
+
+.profileblog_cont p {
+  color: grey;
+  width: 95%;
+}
+
+.profileblog_cont img {
+  height: 7rem;
+  padding: 0.5rem 0;
+}

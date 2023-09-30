@@ -1,7 +1,8 @@
 import "./CreateBlog.css";
+import { useDropzone } from "react-dropzone";
 import ReactQuill, { modules } from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const CreateBlog = () => {
   const [BlogD, setBlogD] = useState({ title: "", img: null, textCont: "" });
@@ -13,10 +14,16 @@ const CreateBlog = () => {
   };
 
   const blogImageHandler = (event) => {
+    console.log(event[0]);
     setBlogD((prev) => {
-      return { ...prev, img: event.target.files[0] };
+      return { ...prev, img: event[0] };
     });
   };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: blogImageHandler,
+    accept: "image/*", // Specify accepted file types (in this case, images)
+  });
 
   const onChangeEditorCon = async (value) => {
     let body = "";
@@ -28,6 +35,9 @@ const CreateBlog = () => {
   };
 
   const saveBlogDetailsBtn = () => {
+    if (!BlogD.img || !BlogD.textCont || !BlogD.title) {
+      return;
+    }
     const formData = new FormData();
     formData.append("title", BlogD.title);
     formData.append("img", BlogD.img);
@@ -47,37 +57,34 @@ const CreateBlog = () => {
   };
 
   return (
-    <section className="createBlog_cont">
-      <div className="createBlog_cont__inputs">
-        <label>Title</label>
-        <input
-          type="text"
-          onChange={onChangeTitle}
-          value={BlogD.title}
-          required
-          placeholder="My blog..."
-        />
-      </div>
-      <div className="createBlog_cont__inputs">
-        <label>Header Image</label>
-        <input
-          type="file"
-          name="profilePic"
-          accept="image/*"
-          required
-          onChange={blogImageHandler}
-        />
-      </div>
-      <ReactQuill
-        theme="snow"
-        onChange={onChangeEditorCon}
-        modules={modules}
-        placeholder="Start Writing Anything you want..."
-      ></ReactQuill>
-      <button className="createBlog_cont__btn" onClick={saveBlogDetailsBtn}>
-        Post
-      </button>
-    </section>
+    <div className="createblog_main">
+      <h2> Create a post</h2>
+      <section className="createBlog_cont">
+        <h2>POST</h2>
+        <div className="createBlog_cont__inputs">
+          <input
+            type="text"
+            onChange={onChangeTitle}
+            value={BlogD.title}
+            required
+            placeholder="Title"
+          />
+          <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            {BlogD.img ? BlogD.img.path : "Browse or drop image"}
+          </div>
+        </div>
+        <ReactQuill
+          theme="snow"
+          onChange={onChangeEditorCon}
+          modules={modules}
+          placeholder="Start Writing Anything you want..."
+        ></ReactQuill>
+        <button className="createBlog_cont__btn" onClick={saveBlogDetailsBtn}>
+          Post
+        </button>
+      </section>
+    </div>
   );
 };
 

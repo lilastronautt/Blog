@@ -7,7 +7,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 7rem;
-  background: #ffc017;
+  background: #1a1a1b;
+  z-index: 1000;
 }
 
 .nav_link__cont {
@@ -17,19 +18,21 @@
 .nav_link__cont li {
   display: inline-block;
   margin-left: 2rem;
+  color: grey;
 }
 
 .nav_link__cont li:hover {
   cursor: pointer;
+  color: #d7dadc;
 }
 
 .nav_link__cont li:last-child {
-  background: black;
-  font-size: 1.2rem;
-  padding: 0.4rem 1.2rem;
+  background: #dad7dc;
+  font-size: 1.1rem;
+  padding: 0.3rem 1.2rem;
   border-radius: 2rem;
-  color: white;
-  border: 1px solid black;
+  color: grey;
+  border: 1px solid #dad7dc;
 }
 
 .nav_link__cont li:last-child:hover {
@@ -43,6 +46,6 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(26, 26, 27, 0.8);
   z-index: 100;
 }
