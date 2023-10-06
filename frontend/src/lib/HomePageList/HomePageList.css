@@ -28,9 +28,16 @@
   cursor: pointer;
 }
 
-.hpl_action__imgcont img {
-  width: 1.3rem;
-  fill: red;
+.hpl_action__imgcont svg {
+  width: 1.5rem;
+}
+
+.hpl_action__imgcont svg:hover {
+  stroke: blue;
+}
+
+.hpl_down__svg svg:hover {
+  stroke: red;
 }
 
 .hpl_cont h2 {

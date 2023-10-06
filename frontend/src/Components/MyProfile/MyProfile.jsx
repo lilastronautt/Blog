@@ -1,29 +1,37 @@
 import { useEffect, useState } from "react";
-import Profile from "../../lib/Profile/Profile";
+
+import SideProfile from "../../lib/SideProfile/SideProfile";
 import BlogList from "../../lib/BlogList/BlogList";
 import Loader from "../../lib/Loader/Loader";
 import CreatePost from "../../lib/CreatePost/CreatePost";
+
 import "./MyProfile.css";
 
 const MyProfile = () => {
+  //saving the blog data after it is fetched from db
   const [blogData, setBlogData] = useState([]);
+
+  //for showing loader till the time the async func runs
   const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
     let username = "ut@gmail.com";
     (async () => {
-      const res = await fetch(
-        `http://localhost:3000/blog/getuserallblogsdetails/${username}`
-      );
-      const jsonData = await res.json();
-      setBlogData(() => jsonData);
-      setShowLoader(() => false);
-      console.log(jsonData);
+      try {
+        const res = await fetch(
+          `http://localhost:3000/blog/getuserallblogsdetails/${username}`
+        );
+        const jsonData = await res.json();
+        setBlogData(() => jsonData);
+        setShowLoader(() => false);
+      } catch (e) {
+      } finally {
+      }
     })();
   }, []);
   return (
     <>
-      <Profile username={"ut@gmail.com"} />
+      <SideProfile username="ut@gmail.com" />
       <section className="blog_hdngbtn">
         <div>
           <h2>All blogs</h2>
@@ -32,7 +40,7 @@ const MyProfile = () => {
       </section>
       {showLoader && <Loader dimension={3} />}
       {showLoader ||
-        blogData.map((el) => {
+        blogData.map((el, index) => {
           const binaryData = new Uint8Array(el.img.data);
           let base64Data = "";
           for (let i = 0; i < binaryData.length; i++) {
@@ -40,12 +48,14 @@ const MyProfile = () => {
           }
           base64Data = btoa(base64Data);
           return (
-            <BlogList
-              imgUrl={`data:image/png;base64,${base64Data}`}
-              title={el.title}
-              textCont={el.textCont}
-              className="bloglist"
-            />
+            <div key={index}>
+              <BlogList
+                imgUrl={`data:image/png;base64,${base64Data}`}
+                title={el.title}
+                textCont={el.textCont}
+                className="bloglist"
+              />
+            </div>
           );
         })}
     </>

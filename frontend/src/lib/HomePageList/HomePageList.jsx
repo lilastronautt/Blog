@@ -1,9 +1,12 @@
 import DOMPurify from "dompurify";
-import "./HomePageList.css";
-import uparrow from "../../../src/assets/uparrow.png";
-import downarrow from "../../../src/assets/downarrow.png";
+import { SvgLoader, SvgProxy } from "react-svgmt";
 
-const HomePageList = ({ title, textCont, img }) => {
+import "./HomePageList.css";
+
+import uparrow from "../../../src/assets/upA.svg";
+import downarrow from "../../../src/assets/downA.svg";
+
+const HomePageList = ({ title, textCont, img, index }) => {
   const sanitizedHTML = DOMPurify.sanitize(textCont);
 
   return (
@@ -20,11 +23,15 @@ const HomePageList = ({ title, textCont, img }) => {
         ></p>
         <div className="hpl_action__cont">
           <div className="hpl_action__imgcont">
-            <img src={uparrow} />
+            <SvgLoader path={uparrow} selector=" ">
+              <SvgProxy />
+            </SvgLoader>
           </div>
           <div>12</div>
-          <div className="hpl_action__imgcont">
-            <img src={downarrow} />
+          <div className="hpl_action__imgcont hpl_down__svg">
+            <SvgLoader path={downarrow} selector=" ">
+              <SvgProxy />
+            </SvgLoader>
           </div>
         </div>
         <div className="hpl_msg">Click to see more</div>

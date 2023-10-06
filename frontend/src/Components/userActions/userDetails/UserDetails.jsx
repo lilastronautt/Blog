@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import "react-datepicker/dist/react-datepicker.css";
 
 const UserDetails = () => {
+  //useState for saving the form data
   const [formData, setFormData] = useState({
     name: "",
     mobileNum: "",
@@ -18,7 +19,10 @@ const UserDetails = () => {
     profilePic: null,
     dob: "",
   });
+  // list of all genders
   const genderOptions = ["Male", "Female", "Non-binary", "Other"];
+
+  // saving clicks on inputs
   const handleGenderChange = (event) => {
     setFormData((prev) => {
       return { ...prev, gender: event.target.value };
@@ -62,9 +66,9 @@ const UserDetails = () => {
     accept: "image/*", // Specify accepted file types (in this case, images)
   });
 
+  // actions to be performed when the user details form is usbmitted
   const detailsFormHandler = () => {
-    console.log(formData);
-    const jsonRes = async () => {
+    (async () => {
       const formData1 = new FormData();
       formData1.append("name", formData.name);
       formData1.append("mobileNum", formData.mobileNum);
@@ -75,16 +79,19 @@ const UserDetails = () => {
       formData1.append("ig", formData.SocialMedia.ig);
       formData1.append("fb", formData.SocialMedia.fb);
       formData1.append("dob", formData.dob);
-      const req = await fetch("http://localhost:3000/users/userdetails", {
-        method: "POST",
-        body: formData1,
-      });
-      const res = await req.json();
-      console.log(res);
-    };
-    jsonRes();
+      try {
+        const req = await fetch("http://localhost:3000/users/userdetails", {
+          method: "POST",
+          body: formData1,
+        });
+        const res = await req.json();
+      } catch (e) {
+      } finally {
+      }
+    })();
   };
 
+  // perform the details functionalities when button is clicked
   const submitDetailsHan = () => {
     detailsFormHandler();
   };

@@ -1,12 +1,15 @@
-import "./CreateBlog.css";
+import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import ReactQuill, { modules } from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useState, useCallback } from "react";
+
+import "./CreateBlog.css";
 
 const CreateBlog = () => {
+  // useState for saving the create blog details
   const [BlogD, setBlogD] = useState({ title: "", img: null, textCont: "" });
 
+  // sav the clicks on every input
   const onChangeTitle = (event) => {
     setBlogD((prev) => {
       return { ...prev, title: event.target.value };
@@ -25,6 +28,7 @@ const CreateBlog = () => {
     accept: "image/*", // Specify accepted file types (in this case, images)
   });
 
+  // async func for taking inputs on every click on react-quill editor
   const onChangeEditorCon = async (value) => {
     let body = "";
     const value1 = await value;
@@ -34,8 +38,10 @@ const CreateBlog = () => {
     });
   };
 
+  //  actions to be performed when the user is finished typing
   const saveBlogDetailsBtn = () => {
     if (!BlogD.img || !BlogD.textCont || !BlogD.title) {
+      // if anyone of the field is empty prevent from submitting
       return;
     }
     const formData = new FormData();

@@ -1,30 +1,40 @@
-import "./Login.css";
-
-import cancel from "../../../assets/cancel.png";
-import { blogActions } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
-const Login = () => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+import { blogActions } from "../../../store/store";
 
-  const passHandler = (event) => {
-    setFormData((prev) => {
-      return { ...prev, password: event.target.value };
-    });
-  };
-  const usernameHandler = (event) => {
-    setFormData((prev) => {
+import cancel from "../../../assets/cancel.png";
+
+import "./Login.css";
+
+const Login = () => {
+  const dispatch = useDispatch();
+
+  //useState for handling form data
+  const [loginFormData, setLoginFormData] = useState({
+    username: "",
+    password: "",
+  });
+
+  //save the clicks on username input
+  const loginUsernameHandler = (event) => {
+    setLoginFormData((prev) => {
       return { ...prev, username: event.target.value };
     });
   };
 
-  const dispatch = useDispatch();
+  //save the clicks on password input
+  const loginPassHandler = (event) => {
+    setLoginFormData((prev) => {
+      return { ...prev, password: event.target.value };
+    });
+  };
 
+  //actions to be formed when login form is submitted
   const loginFormHandler = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // to prevent it from reloading the page
 
-    const fetchfunc = async () => {
+    (async () => {
       try {
         const jsonRes = await fetch("http://localhost:3000/users/login", {
           method: "POST",
@@ -32,22 +42,21 @@ const Login = () => {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(loginFormData),
         });
         const res = await jsonRes.json();
-        console.log(res);
       } catch (e) {
-        console.log(e);
       } finally {
       }
-    };
-    fetchfunc();
+    })(); // IIFE for checking if the user exist and authenticate then
   };
 
+  // close the login page (temp)
   const closeUserActionHandler = () => {
     dispatch(blogActions.closeAuth());
   };
 
+  // open the registration page (temp)
   const showRegHandler = () => {
     dispatch(blogActions.showLoginModal(false));
     dispatch(blogActions.showRegistrationModal(true));
@@ -62,22 +71,20 @@ const Login = () => {
         <div className="login_cont__msg">Welcome back!</div>
         <form onSubmit={loginFormHandler} className="login_cont__form">
           <section>
-            {/* <label>Enter Username</label> */}
             <input
               type="text"
               placeholder="Enter Username"
-              onChange={usernameHandler}
-              value={formData.username}
+              onChange={loginUsernameHandler}
+              value={loginFormData.username}
             />
           </section>
 
           <section>
-            {/* <label>Enter Password</label> */}
             <input
               type="password"
               placeholder="Enter Password"
-              onChange={passHandler}
-              value={formData.password}
+              onChange={loginPassHandler}
+              value={loginFormData.password}
             />
           </section>
           <button type="submit" className="login_cont_formButton">
