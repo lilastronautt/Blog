@@ -2,7 +2,7 @@
   position: fixed;
   height: 98vh;
   width: 40vw;
-  background: white;
+  background: #1a1a1b;
   left: 50%;
   margin-left: -20vw;
   top: 50%;
@@ -14,8 +14,12 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 5px 1px rgba(218, 215, 220, 0.3);
   text-align: center;
+}
+
+.userdeatils_cont h1 {
+  color: #d7dadc;
 }
 
 .userdetails_cont__form {
@@ -30,21 +34,18 @@
   align-items: center;
 }
 
-.userdeatils_cont label {
-  margin-bottom: 0.5rem;
-  text-align: center;
+.userdeatils_cont input {
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #1a1a1b;
+  border: 1px solid #3a3b3d;
+  color: #d7dadc;
 }
 
-.userdeatils_cont input {
-  display: block;
-  text-align: center;
-  margin: 0 auto;
-  margin-bottom: 1rem;
-  padding: 0.5rem 0.2rem;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  border: none;
-  border-bottom: 1px solid black;
+.userdeatils_cont input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #1a1a1b inset !important;
+  -webkit-text-fill-color: #d7dadc !important;
 }
 
 .userdeatils_cont input:focus-visible {
@@ -52,27 +53,45 @@
 }
 
 .userdetails_btn {
-  padding: 0.4rem 1.8rem;
-  color: white;
-  background: black;
-  border: 1px solid black;
+  background-color: #dad7dc;
+  color: grey;
+  border: 1px solid #dad7dc;
+  padding: 0.3rem 1rem;
+  margin-top: 1rem;
+  border-radius: 8px;
   cursor: pointer;
 }
 
 .userdetails_btn:hover {
+  background-color: white;
   color: black;
-  background: white;
 }
 
 select {
   display: block;
   margin: 1rem auto;
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #3a3b3d;
   padding: 0.2rem 0;
   text-align: center;
+  background: #1a1a1b;
+  color: #d7dadc;
 }
 
 select:focus-visible {
-  outline: none;
+  outline: 1px solid #3a3b3d;
+}
+
+.userdetails_cont_imgdrop {
+  text-align: center;
+  background: transparent;
+  border: 1px solid #3a3b3d;
+  width: 100%;
+  padding: 2rem;
+  color: #d7dadc;
+  font-size: 0.8rem;
+}
+
+.userdetails_cont_imgdrop:hover {
+  outline: 1px solid #d7dadc;
 }

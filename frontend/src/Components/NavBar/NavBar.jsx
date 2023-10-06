@@ -35,7 +35,6 @@ const NavBar = () => {
         <div className="nav_logo__cont">Blog Website</div>
         <ul className="nav_link__cont">
           <li>Something</li>
-
           <li onClick={openCreateBlogPage}>Write a blog</li>
           <li onClick={showProfileHandler}>Show profile</li>
           <li onClick={onClickHandler}>sign in</li>

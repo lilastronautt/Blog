@@ -1,6 +1,7 @@
 import "./UserDetails.css";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
+import { useDropzone } from "react-dropzone";
 import "react-datepicker/dist/react-datepicker.css";
 
 const UserDetails = () => {
@@ -50,11 +51,16 @@ const UserDetails = () => {
     });
   };
 
-  const detailsPicHan = (event) => {
+  const detailsPicHan = (accept) => {
     setFormData((prev) => {
-      return { ...prev, profilePic: event.target.files[0] };
+      return { ...prev, profilePic: accept };
     });
   };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: detailsPicHan,
+    accept: "image/*", // Specify accepted file types (in this case, images)
+  });
 
   const detailsFormHandler = () => {
     console.log(formData);
@@ -148,16 +154,12 @@ const UserDetails = () => {
           // isClearable // Adds a clear button
           style={{ witdh: "100%", textAlign: "center" }}
         />
-        <label style={{ display: "block", marginTop: "1rem" }}>
-          Choose profile pic
-        </label>
-        <input
-          type="file"
-          name="profilePic"
-          accept="image/*"
-          required
-          onChange={detailsPicHan}
-        />
+        <div {...getRootProps()} className="userdetails_cont_imgdrop">
+          <input {...getInputProps()} />
+          {formData.profilePic
+            ? formData.profilePic[0].path
+            : "Browse or drop image"}
+        </div>
       </form>
       <button onClick={submitDetailsHan} className="userdetails_btn">
         Submit details

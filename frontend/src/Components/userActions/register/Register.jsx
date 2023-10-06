@@ -3,10 +3,12 @@ import cancel from "../../../assets/cancel.png";
 import { blogActions } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import Loader from "../../../lib/Loader/Loader";
 
 const Register = () => {
   const [btnMsg, setBtnMsg] = useState("Register");
   const [errorMsg, setErrorMsg] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const dispatch = useDispatch();
   const usernameExists = useSelector((state) => state.usernameExists);
   const passNotEqual = useSelector((state) => state.passNotEqual);
@@ -27,6 +29,7 @@ const Register = () => {
     setErrorMsg(() => false);
     dispatch(blogActions.usernameExists(false));
     dispatch(blogActions.setPassNotEqual(false));
+    setShowLoader(() => true);
     //logic for checking if username exists or not
     let timer = setTimeout(async () => {
       try {
@@ -40,6 +43,7 @@ const Register = () => {
             dispatch(blogActions.usernameExists(true));
           }
         });
+        setShowLoader(() => false);
       } catch (e) {}
     }, 800);
 
@@ -112,7 +116,6 @@ const Register = () => {
       <div className="login_cont__msg">Welcome!</div>
       <form onSubmit={loginFormHandler} className="login_cont__form">
         <section>
-          {/* <label>Enter Username</label> */}
           <input
             type="text"
             placeholder="Enter Username"
@@ -123,6 +126,7 @@ const Register = () => {
           {usernameExists && (
             <div className="login_cont__error">username already exists</div>
           )}
+          {showLoader && <Loader dimension={1.5} />}
         </section>
 
         <section>
