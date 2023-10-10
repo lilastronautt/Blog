@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 import { blogActions } from "../../../store/store";
 
@@ -18,6 +19,8 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+
+  const [rFormFocus, setRFormFocus] = useState(false);
 
   //usState for changing the msg on the register button
   const [btnMsg, setBtnMsg] = useState("Register");
@@ -53,17 +56,6 @@ const Register = () => {
     setRegisterFormData((prev) => {
       return { ...prev, confirmPassword: event.target.value };
     });
-  };
-
-  // temp
-  const closeUserActionHandler = () => {
-    dispatch(blogActions.closeAuth());
-  };
-
-  //move on to login page
-  const showLog = () => {
-    dispatch(blogActions.showLoginModal(true));
-    dispatch(blogActions.showRegistrationModal(false));
   };
 
   // actions to be performed when register form is submittd
@@ -103,6 +95,10 @@ const Register = () => {
     }
   };
 
+  const registerFormFocusH = () => {
+    setRFormFocus(() => true);
+  };
+
   useEffect(() => {
     setErrorMsg(() => false);
     dispatch(blogActions.usernameExists(false));
@@ -133,11 +129,17 @@ const Register = () => {
 
   return (
     <section className="login_cont">
-      <div className="login_cont__icon" onClick={closeUserActionHandler}>
-        <img src={cancel} alt="cancel" />
-      </div>
+      <Link to="/" className="routerLink">
+        <div className="login_cont__icon">
+          <img src={cancel} alt="cancel" />
+        </div>
+      </Link>
       <div className="login_cont__msg">Welcome!</div>
-      <form onSubmit={registerFormHandler} className="login_cont__form">
+      <form
+        onSubmit={registerFormHandler}
+        className="login_cont__form"
+        onFocus={registerFormFocusH}
+      >
         <section>
           <input
             type="text"
@@ -149,7 +151,7 @@ const Register = () => {
           {usernameExists && (
             <div className="login_cont__error">username already exists</div>
           )}
-          {showLoader && <Loader dimension={1.5} />}
+          {showLoader && rFormFocus && <Loader dimension={1.5} />}
         </section>
 
         <section>
@@ -181,8 +183,10 @@ const Register = () => {
           {btnMsg}
         </button>
       </form>
-      <div className="login_cont__otherOp" onClick={showLog}>
-        Already have a account? Login instead
+      <div className="login_cont__otherOp">
+        <Link className="routerLink" to="/login">
+          Already have a account? Login instead
+        </Link>
       </div>
     </section>
   );

@@ -3,9 +3,8 @@
   animation: ani 1500ms 1s 100 linear forwards;
   border: 5px solid rgba(21, 207, 129, 0.4);
   border-top: 5px solid #15cf81;
-  margin: 0 auto;
+  margin: 1rem auto;
   animation: ani 1500ms 1s 100 linear forwards;
-  margin-bottom: 1rem;
 }
 
 @keyframes ani {

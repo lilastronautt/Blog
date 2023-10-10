@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { Prompt } from "react-router-dom";
 import ReactQuill, { modules } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -8,6 +9,7 @@ import "./CreateBlog.css";
 const CreateBlog = () => {
   // useState for saving the create blog details
   const [BlogD, setBlogD] = useState({ title: "", img: null, textCont: "" });
+  const [cbhFormState, setSBHFormState] = useState(false);
 
   // sav the clicks on every input
   const onChangeTitle = (event) => {
@@ -62,35 +64,47 @@ const CreateBlog = () => {
     }
   };
 
+  const cbfHandler = () => {
+    setSBHFormState(() => true);
+  };
+
   return (
-    <div className="createblog_main">
-      <h2> Create a post</h2>
-      <section className="createBlog_cont">
-        <h2>POST</h2>
-        <div className="createBlog_cont__inputs">
-          <input
-            type="text"
-            onChange={onChangeTitle}
-            value={BlogD.title}
-            required
-            placeholder="Title"
-          />
-          <div {...getRootProps()}>
-            <input {...getInputProps()} />
-            {BlogD.img ? BlogD.img.path : "Browse or drop image"}
+    <>
+      <Prompt
+        when={cbhFormState}
+        message={() =>
+          "Dou wanna navigate to other to page? \nAll your input data will be lost!"
+        }
+      />
+      <form className="createblog_main" onFocus={cbfHandler}>
+        <h2> Create a post</h2>
+        <section className="createBlog_cont">
+          <h2>POST</h2>
+          <div className="createBlog_cont__inputs">
+            <input
+              type="text"
+              onChange={onChangeTitle}
+              value={BlogD.title}
+              required
+              placeholder="Title"
+            />
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              {BlogD.img ? BlogD.img.path : "Browse or drop image"}
+            </div>
           </div>
-        </div>
-        <ReactQuill
-          theme="snow"
-          onChange={onChangeEditorCon}
-          modules={modules}
-          placeholder="Start Writing Anything you want..."
-        ></ReactQuill>
-        <button className="createBlog_cont__btn" onClick={saveBlogDetailsBtn}>
-          Post
-        </button>
-      </section>
-    </div>
+          <ReactQuill
+            theme="snow"
+            onChange={onChangeEditorCon}
+            modules={modules}
+            placeholder="Start Writing Anything you want..."
+          ></ReactQuill>
+          <button className="createBlog_cont__btn" onClick={saveBlogDetailsBtn}>
+            Post
+          </button>
+        </section>
+      </form>
+    </>
   );
 };
 

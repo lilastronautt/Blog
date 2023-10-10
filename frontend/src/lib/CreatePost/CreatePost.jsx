@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./CreatePost.css";
 
 const CreatePost = ({ width }) => {
@@ -21,12 +22,14 @@ const CreatePost = ({ width }) => {
   }, []);
 
   return (
-    <section className="createPost" style={{ width: `${width}%` }}>
-      <div className="createPost__img">
-        <img src={imgUrl} />
-      </div>
-      <input placeholder="Create post" />
-    </section>
+    <Link to="/createblog">
+      <section className="createPost" style={{ width: `${width}%` }}>
+        <div className="createPost__img">
+          <img src={imgUrl} />
+        </div>
+        <input placeholder="Create post" />
+      </section>
+    </Link>
   );
 };
 

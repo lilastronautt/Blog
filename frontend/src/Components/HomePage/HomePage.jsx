@@ -31,11 +31,11 @@ const HomePage = () => {
 
   return (
     <>
-      {showLoader && <Loader dimension={4} />}
-      {showLoader || (
-        <div className="homepage_cont">
-          <CreatePost width={50} />
-          {blogData?.map((el, index) => {
+      <div className="homepage_cont">
+        <CreatePost width={50} />
+        {showLoader && <Loader dimension={4} />}
+        {showLoader ||
+          blogData?.map((el, index) => {
             // converting the buffer data to base64
             const binaryData = new Uint8Array(el.img.data);
             let base64Data = "";
@@ -54,8 +54,7 @@ const HomePage = () => {
               </div>
             );
           })}
-        </div>
-      )}
+      </div>
     </>
   );
 };

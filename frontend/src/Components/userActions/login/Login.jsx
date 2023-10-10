@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 import { blogActions } from "../../../store/store";
 
@@ -51,23 +52,14 @@ const Login = () => {
     })(); // IIFE for checking if the user exist and authenticate then
   };
 
-  // close the login page (temp)
-  const closeUserActionHandler = () => {
-    dispatch(blogActions.closeAuth());
-  };
-
-  // open the registration page (temp)
-  const showRegHandler = () => {
-    dispatch(blogActions.showLoginModal(false));
-    dispatch(blogActions.showRegistrationModal(true));
-  };
-
   return (
     <>
       <section className="login_cont">
-        <div className="login_cont__icon" onClick={closeUserActionHandler}>
-          <img src={cancel} alt="cancel" />
-        </div>
+        <Link to="/" className="routerLink">
+          <div className="login_cont__icon">
+            <img src={cancel} alt="cancel" />
+          </div>
+        </Link>
         <div className="login_cont__msg">Welcome back!</div>
         <form onSubmit={loginFormHandler} className="login_cont__form">
           <section>
@@ -91,8 +83,10 @@ const Login = () => {
             Login
           </button>
         </form>
-        <div className="login_cont__otherOp" onClick={showRegHandler}>
-          No account? Create one
+        <div className="login_cont__otherOp">
+          <Link to="/register" className="routerLink">
+            No account? Create one
+          </Link>
         </div>
       </section>
     </>

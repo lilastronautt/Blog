@@ -6,9 +6,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 7rem;
+  padding: 0 8rem;
   background: #1a1a1b;
-  z-index: 1000;
+  z-index: 99;
 }
 
 .nav_link__cont {
@@ -17,13 +17,11 @@
 
 .nav_link__cont li {
   display: inline-block;
-  margin-left: 2rem;
-  color: grey;
+  margin-left: 3rem;
 }
 
 .nav_link__cont li:hover {
   cursor: pointer;
-  color: #d7dadc;
 }
 
 .nav_link__cont li:last-child {
@@ -38,14 +36,4 @@
 .nav_link__cont li:last-child:hover {
   background: white;
   color: black;
-}
-
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(26, 26, 27, 0.8);
-  z-index: 100;
 }

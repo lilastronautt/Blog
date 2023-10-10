@@ -2,6 +2,7 @@ import "./UserDetails.css";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useDropzone } from "react-dropzone";
+import { Prompt } from "react-router-dom/cjs/react-router-dom.min";
 import "react-datepicker/dist/react-datepicker.css";
 
 const UserDetails = () => {
@@ -97,81 +98,84 @@ const UserDetails = () => {
   };
 
   return (
-    <div className="userdeatils_cont">
-      <h1>Please enter your details</h1>
-      <form className="userdetails_cont__form" onSubmit={detailsFormHandler}>
-        <section className="userdetails_cont__pairs">
-          <input
-            placeholder="Enter name*"
-            type="text"
-            required
-            onChange={detailsNameHan}
-            value={formData.name}
-          />
+    <>
+      <Prompt when={true} message={() => "Please Complete the registration!"} />
+      <div className="userdeatils_cont">
+        <h1>Please enter your details</h1>
+        <form className="userdetails_cont__form" onSubmit={detailsFormHandler}>
+          <section className="userdetails_cont__pairs">
+            <input
+              placeholder="Enter name*"
+              type="text"
+              required
+              onChange={detailsNameHan}
+              value={formData.name}
+            />
 
-          <input
-            placeholder="Enter Mobile Number*"
-            type="tel"
-            required
-            onChange={detailsMobHan}
-            value={formData.mobileNum}
+            <input
+              placeholder="Enter Mobile Number*"
+              type="tel"
+              required
+              onChange={detailsMobHan}
+              value={formData.mobileNum}
+            />
+          </section>
+          <section className="userdetails_cont__pairs">
+            <input
+              placeholder="Enter Email Address*"
+              type="email"
+              required
+              value={formData.emailAddress}
+              onChange={detailsEmailHan}
+            />
+            <input
+              placeholder="Enter Bio"
+              type="text"
+              required
+              value={formData.bio}
+              onChange={detailsBioHan}
+            />
+          </section>
+          <section className="userdetails_cont__pairs">
+            <input placeholder="Instagram link" />
+            <input placeholder="Facebook link" />
+          </section>
+          <select
+            id="gender"
+            name="gender"
+            value={formData.gender}
+            onChange={handleGenderChange}
+          >
+            <option value="">Select gender*</option>
+            {genderOptions.map((gender, index) => (
+              <option key={index} value={gender}>
+                {gender}
+              </option>
+            ))}
+          </select>
+          <DatePicker
+            selected={formData.dob}
+            onChange={handleDateChange}
+            dateFormat="MM/dd/yyyy"
+            showYearDropdown
+            scrollableYearDropdown
+            yearDropdownItemNumber={15}
+            placeholderText="Select a date of birth*"
+            // isClearable // Adds a clear button
+            style={{ witdh: "100%", textAlign: "center" }}
           />
-        </section>
-        <section className="userdetails_cont__pairs">
-          <input
-            placeholder="Enter Email Address*"
-            type="email"
-            required
-            value={formData.emailAddress}
-            onChange={detailsEmailHan}
-          />
-          <input
-            placeholder="Enter Bio"
-            type="text"
-            required
-            value={formData.bio}
-            onChange={detailsBioHan}
-          />
-        </section>
-        <section className="userdetails_cont__pairs">
-          <input placeholder="Instagram link" />
-          <input placeholder="Facebook link" />
-        </section>
-        <select
-          id="gender"
-          name="gender"
-          value={formData.gender}
-          onChange={handleGenderChange}
-        >
-          <option value="">Select gender*</option>
-          {genderOptions.map((gender, index) => (
-            <option key={index} value={gender}>
-              {gender}
-            </option>
-          ))}
-        </select>
-        <DatePicker
-          selected={formData.dob}
-          onChange={handleDateChange}
-          dateFormat="MM/dd/yyyy"
-          showYearDropdown
-          scrollableYearDropdown
-          yearDropdownItemNumber={15}
-          placeholderText="Select a date of birth*"
-          // isClearable // Adds a clear button
-          style={{ witdh: "100%", textAlign: "center" }}
-        />
-        <div {...getRootProps()} className="userdetails_cont_imgdrop">
-          <input {...getInputProps()} />
-          {formData.profilePic
-            ? formData.profilePic[0].path
-            : "Browse or drop image"}
-        </div>
-      </form>
-      <button onClick={submitDetailsHan} className="userdetails_btn">
-        Submit details
-      </button>
-    </div>
+          <div {...getRootProps()} className="userdetails_cont_imgdrop">
+            <input {...getInputProps()} />
+            {formData.profilePic
+              ? formData.profilePic[0].path
+              : "Browse or drop image"}
+          </div>
+        </form>
+        <button onClick={submitDetailsHan} className="userdetails_btn">
+          Submit details
+        </button>
+      </div>
+    </>
   );
 };
 
