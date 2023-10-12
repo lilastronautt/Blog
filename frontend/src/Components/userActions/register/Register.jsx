@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-
+import { useHistory } from "react-router-dom";
 import { blogActions } from "../../../store/store";
 
 import Loader from "../../../lib/Loader/Loader";
 import cancel from "../../../assets/cancel.png";
+import Success from "../../../lib/SuccessfullMessage/Sucessfull";
 
 import "../login/Login.css";
 
 const Register = () => {
   // dispatch actions to the store
   const dispatch = useDispatch();
+
+  const history = useHistory();
 
   //register form useState
   const [registerFormData, setRegisterFormData] = useState({
@@ -20,7 +23,7 @@ const Register = () => {
     confirmPassword: "",
   });
 
-  const [rFormFocus, setRFormFocus] = useState(false);
+  const [showSucMsg, setSucMsg] = useState(false);
 
   //usState for changing the msg on the register button
   const [btnMsg, setBtnMsg] = useState("Register");
@@ -60,12 +63,14 @@ const Register = () => {
 
   // actions to be performed when register form is submittd
   const registerFormHandler = (e) => {
+    setErrorMsg(() => false);
     dispatch(blogActions.setPassNotEqual(false));
     e.preventDefault(); // prevent it from reloading
 
     if (usernameExists) {
       return;
     }
+    console.log("ran");
     if (registerFormData.password != registerFormData.confirmPassword) {
       dispatch(blogActions.setPassNotEqual(true)); // if passwords donot match
       return;
@@ -79,12 +84,19 @@ const Register = () => {
               Accept: "application/json",
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(registerFormData),
           });
           const res = await req.json();
-          console.log(res.msg);
           if (res.msg == "error") {
             setErrorMsg(() => true);
+          } else {
+            setSucMsg(() => true);
+            setTimeout(() => {
+              setSucMsg(() => false);
+            }, 1500);
+            setTimeout(() => {
+              history.replace("/register/userdetails");
+            }, 2000);
           }
         } catch (e) {
           setErrorMsg(() => true);
@@ -93,10 +105,6 @@ const Register = () => {
         }
       })(); // IIFE for saving the data to the databse
     }
-  };
-
-  const registerFormFocusH = () => {
-    setRFormFocus(() => true);
   };
 
   useEffect(() => {
@@ -112,7 +120,7 @@ const Register = () => {
           "http://localhost:3000/users/usernames"
         );
         const data = await usernamesRes.json();
-
+        if (!data) setShowLoader(() => false);
         data.forEach((el) => {
           if (el.username == registerFormData.username) {
             dispatch(blogActions.usernameExists(true));
@@ -125,7 +133,7 @@ const Register = () => {
     return () => {
       clearTimeout(timer); // for debouncing
     };
-  }, [registerFormData]);
+  }, [registerFormData.username]);
 
   return (
     <section className="login_cont">
@@ -135,11 +143,7 @@ const Register = () => {
         </div>
       </Link>
       <div className="login_cont__msg">Welcome!</div>
-      <form
-        onSubmit={registerFormHandler}
-        className="login_cont__form"
-        onFocus={registerFormFocusH}
-      >
+      <form onSubmit={registerFormHandler} className="login_cont__form">
         <section>
           <input
             type="text"
@@ -151,7 +155,7 @@ const Register = () => {
           {usernameExists && (
             <div className="login_cont__error">username already exists</div>
           )}
-          {showLoader && rFormFocus && <Loader dimension={1.5} />}
+          {showLoader && <Loader dimension={1.5} />}
         </section>
 
         <section>
@@ -188,6 +192,7 @@ const Register = () => {
           Already have a account? Login instead
         </Link>
       </div>
+      {showSucMsg && <Success />}
     </section>
   );
 };

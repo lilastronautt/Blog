@@ -52,6 +52,13 @@
   outline: none;
 }
 
+.userdetails_cont__error {
+  margin-bottom: 1rem;
+  margin-left: 0.3rem;
+  color: #15cf81;
+  font-size: 0.8rem;
+}
+
 .userdetails_btn {
   background-color: #dad7dc;
   color: grey;

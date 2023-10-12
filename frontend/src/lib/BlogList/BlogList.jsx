@@ -1,13 +1,17 @@
 import "./BlogList.css";
 import DOMPurify from "dompurify";
-import Loader from "../Loader/Loader";
+import { useHistory } from "react-router-dom";
 
-const BlogList = ({ title, textCont, imgUrl, className }) => {
+const BlogList = ({ blogId, title, textCont, imgUrl, className }) => {
   const sanitizedHTML = DOMPurify.sanitize(textCont);
+  const history = useHistory();
 
+  const openBlogHandler = () => {
+    history.push(`/blogdetail/${blogId}`);
+  };
   return (
     <>
-      <div className={className}>
+      <div className={className} onClick={openBlogHandler}>
         <div className="profileblog_cont">
           <div>
             <h3>{title}</h3>

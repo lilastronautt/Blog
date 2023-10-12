@@ -14,8 +14,11 @@ const MyProfile = () => {
   //for showing loader till the time the async func runs
   const [showLoader, setShowLoader] = useState(true);
 
+  const [showErrorMsg, setShowErrorMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
   useEffect(() => {
-    let username = "ut@gmail.com";
+    let username = "lilastronautt";
     (async () => {
       try {
         const res = await fetch(
@@ -24,40 +27,54 @@ const MyProfile = () => {
         const jsonData = await res.json();
         setBlogData(() => jsonData);
         setShowLoader(() => false);
+
+        if (jsonData.msg == "error") {
+          setShowErrorMsg(() => true);
+          setErrorMsg(() => "something went wrong!");
+          return;
+        }
+        if (!jsonData[0]) {
+          setShowErrorMsg(() => true);
+          setErrorMsg(() => "Uhoh, you haven't posted anything :)");
+        }
       } catch (e) {
-      } finally {
+        setShowErrorMsg(() => true);
+        setErrorMsg(() => "something went wrong");
       }
     })();
   }, []);
   return (
     <>
-      <SideProfile username="ut@gmail.com" />
+      <SideProfile username="lilastronautt" />
       <section className="blog_hdngbtn">
         <div>
           <h2>All blogs</h2>
           <CreatePost width={100} />
         </div>
       </section>
+      {showErrorMsg && <div className="myprofile_errormsg">{errorMsg}</div>}
       {showLoader && <Loader dimension={3} />}
       {showLoader ||
-        blogData.map((el, index) => {
-          const binaryData = new Uint8Array(el.img.data);
-          let base64Data = "";
-          for (let i = 0; i < binaryData.length; i++) {
-            base64Data += String.fromCharCode(binaryData[i]);
-          }
-          base64Data = btoa(base64Data);
-          return (
-            <div key={index}>
-              <BlogList
-                imgUrl={`data:image/png;base64,${base64Data}`}
-                title={el.title}
-                textCont={el.textCont}
-                className="bloglist"
-              />
-            </div>
-          );
-        })}
+        (Array.isArray(blogData) &&
+          blogData?.map((el, index) => {
+            const binaryData = new Uint8Array(el.image.data);
+            let base64Data = "";
+            for (let i = 0; i < binaryData.length; i++) {
+              base64Data += String.fromCharCode(binaryData[i]);
+            }
+            base64Data = btoa(base64Data);
+            return (
+              <div key={index}>
+                <BlogList
+                  imgUrl={`data:image/png;base64,${base64Data}`}
+                  title={el.title}
+                  textCont={el.content}
+                  blogId={el.blogId}
+                  className="bloglist"
+                />
+              </div>
+            );
+          }))}
     </>
   );
 };

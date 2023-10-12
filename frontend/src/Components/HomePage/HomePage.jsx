@@ -14,7 +14,7 @@ const HomePage = () => {
   const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
-    let username = "ut@gmail.com";
+    let username = "lilastronautt";
     (async () => {
       try {
         const res = await fetch(
@@ -23,6 +23,7 @@ const HomePage = () => {
         const jsonData = await res.json();
         setBlogData(() => jsonData);
         setShowLoader(false);
+        console.log(jsonData);
       } catch (e) {
       } finally {
       }
@@ -37,7 +38,7 @@ const HomePage = () => {
         {showLoader ||
           blogData?.map((el, index) => {
             // converting the buffer data to base64
-            const binaryData = new Uint8Array(el.img.data);
+            const binaryData = new Uint8Array(el.image.data);
             let base64Data = "";
             for (let i = 0; i < binaryData.length; i++) {
               base64Data += String.fromCharCode(binaryData[i]);
@@ -48,8 +49,11 @@ const HomePage = () => {
               <div key={index}>
                 <HomePageList
                   title={el.title}
-                  textCont={el.textCont}
+                  textCont={el.content}
                   img={`data:image/png;base64,${base64Data}`}
+                  upvotes={el.upvotes}
+                  downvotes={el.downvotes}
+                  blogId={el.blogId}
                 />
               </div>
             );

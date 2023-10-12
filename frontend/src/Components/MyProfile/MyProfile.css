@@ -30,3 +30,10 @@
 .blog_hdngbtn h2 {
   color: #d7dadc;
 }
+
+.myprofile_errormsg {
+  color: #15cf81;
+  width: 45%;
+  margin: 3rem auto;
+  text-align: center;
+}

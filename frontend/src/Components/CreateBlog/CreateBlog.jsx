@@ -1,8 +1,11 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Prompt } from "react-router-dom";
+import { Prompt, useHistory } from "react-router-dom";
+
 import ReactQuill, { modules } from "react-quill";
 import "react-quill/dist/quill.snow.css";
+
+import Success from "../../lib/SuccessfullMessage/Sucessfull";
 
 import "./CreateBlog.css";
 
@@ -10,6 +13,11 @@ const CreateBlog = () => {
   // useState for saving the create blog details
   const [BlogD, setBlogD] = useState({ title: "", img: null, textCont: "" });
   const [cbhFormState, setSBHFormState] = useState(false);
+  const [showSucMsg, setShowSucMsg] = useState(false);
+  const [showErrorMsg, setShowrrorMsg] = useState(false);
+  const [btnMsg, setBtnMsg] = useState("POST");
+
+  const history = useHistory();
 
   // sav the clicks on every input
   const onChangeTitle = (event) => {
@@ -18,12 +26,11 @@ const CreateBlog = () => {
     });
   };
 
-  const blogImageHandler = (event) => {
-    console.log(event[0]);
+  const blogImageHandler = useCallback((event) => {
     setBlogD((prev) => {
       return { ...prev, img: event[0] };
     });
-  };
+  }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: blogImageHandler,
@@ -41,9 +48,14 @@ const CreateBlog = () => {
   };
 
   //  actions to be performed when the user is finished typing
-  const saveBlogDetailsBtn = () => {
+  const saveBlogDetailsBtn = (event) => {
+    setBtnMsg(() => "POSTING...");
+    event.preventDefault();
+    setSBHFormState(() => false);
     if (!BlogD.img || !BlogD.textCont || !BlogD.title) {
       // if anyone of the field is empty prevent from submitting
+      setBtnMsg(() => "POST");
+      setShowrrorMsg(() => true);
       return;
     }
     const formData = new FormData();
@@ -51,15 +63,28 @@ const CreateBlog = () => {
     formData.append("img", BlogD.img);
     formData.append("textCont", BlogD.textCont);
     try {
+      setShowrrorMsg(() => false);
       (async () => {
         const jsonData = await fetch("http://localhost:3000/blog/blogdetails", {
           method: "POST",
           body: formData,
         });
         const res = await jsonData.json();
-        console.log(res);
+        setBtnMsg(() => "POST");
+        if (res.msg == "okay") {
+          setShowSucMsg(() => true);
+          setTimeout(() => {
+            setShowSucMsg(() => false);
+          }, 1500);
+          setTimeout(() => {
+            history.replace("/myprofile");
+          }, 2000);
+        } else {
+          setShowrrorMsg(() => true);
+        }
       })();
     } catch (e) {
+      setShowrrorMsg(() => true);
     } finally {
     }
   };
@@ -99,11 +124,17 @@ const CreateBlog = () => {
             modules={modules}
             placeholder="Start Writing Anything you want..."
           ></ReactQuill>
+          {showErrorMsg && (
+            <div className="login_cont__error">
+              Something went wrong,check whether all fields are filled!
+            </div>
+          )}
           <button className="createBlog_cont__btn" onClick={saveBlogDetailsBtn}>
-            Post
+            {btnMsg}
           </button>
         </section>
       </form>
+      {showSucMsg && <Success />}
     </>
   );
 };

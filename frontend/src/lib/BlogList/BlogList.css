@@ -6,6 +6,13 @@
   width: 45%;
   margin: 0 auto;
   margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.profileblog_cont:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .profileblog_cont h3 {

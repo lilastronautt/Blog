@@ -7,6 +7,7 @@ const userDetailsRouter = require("./routes/users/userDetails.js");
 const blogDetailsRouter = require("./routes/blog/blogDetails.js");
 const getUserDetails = require("./routes/users/getUserDetails.js");
 const getUserAllBlogsDetails = require("./routes/blog/getUserAllBlogsDetails.js");
+const getBlogDetailsRouter = require("./routes/blog/getBlogDetails");
 const cors = require("cors");
 
 const corsOption = {
@@ -22,6 +23,7 @@ app.use("/users", userDetailsRouter);
 app.use("/users", getUserDetails);
 app.use("/blog", blogDetailsRouter);
 app.use("/blog", getUserAllBlogsDetails);
+app.use("/blog", getBlogDetailsRouter);
 
 app.use(cors());
 

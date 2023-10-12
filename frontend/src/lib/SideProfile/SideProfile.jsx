@@ -25,7 +25,7 @@ const SideProfile = ({ username }) => {
       const res = await jsonData.json();
       setData(() => res);
       // converting the data to base64
-      const binaryData = new Uint8Array(res.profilePic.data);
+      const binaryData = new Uint8Array(res?.profilepic?.data);
       let base64Data = "";
       for (let i = 0; i < binaryData.length; i++) {
         base64Data += String.fromCharCode(binaryData[i]);
@@ -53,16 +53,16 @@ const SideProfile = ({ username }) => {
               <div className="profile_cont__basicsImg">
                 <img src={imgUrl} alt="profile pic" />
               </div>
-              <h3>{data.fullName}</h3>
-              <h5>{data.username}</h5>
+              <h3>{data?.fullname}</h3>
+              <h5>{data?.username}</h5>
               <label>About</label>
-              <h3>{data.bio}</h3>
+              <h3>{data?.bio}</h3>
               <label>Date of birth</label>
               <h4>{formattedDate}</h4>
               <label>Email address</label>
-              <h4>{data.emailAddress}</h4>
+              <h4>{data?.email_address}</h4>
               <label>Mobile Number</label>
-              <h4>{data.mobileNum}</h4>
+              <h4>{data?.mobile_number}</h4>
             </>
           )}
         </aside>

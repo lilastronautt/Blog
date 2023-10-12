@@ -10,15 +10,18 @@ const upload = multer({ storage });
 
 router.post("/blogdetails", upload.single("img"), (req, res, next) => {
   if (!req.body) res.json({ msg: "error" });
-  const img = req.file.buffer;
-  db.query(
-    "insert into blogs(title,textCont,username,img) values(?,?,?,?)",
-    [req.body.title, req.body.textCont, "ut@gmail.com", img],
-    (error, results) => {
-      if (error) res.json({ msg: "error" });
-      else res.json({ msg: "okay" });
-    }
-  );
+  else {
+    const img = req.file.buffer;
+    db.query(
+      "insert into blogs(author,content,title,upvotes,downvotes,image) values(?,?,?,?,?,?)",
+      ["lilastronautt", req.body.textCont, req.body.title, 0, 0, img],
+      (error, results) => {
+        console.log(error);
+        if (error) res.json({ msg: "error" });
+        else res.json({ msg: "okay" });
+      }
+    );
+  }
 });
 
 module.exports = router;

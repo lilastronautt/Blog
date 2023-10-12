@@ -8,6 +8,7 @@ import CreateBlog from "../Components/CreateBlog/CreateBlog";
 import MyProfile from "../Components/MyProfile/MyProfile";
 import Backdrop from "../lib/Backdrop/Backdrop";
 import NotFound from "../Components/NotFound/NotFound";
+import BlogDetail from "../Components/BlogDetail/BlogDetail";
 
 const Pages = () => {
   return (
@@ -37,6 +38,9 @@ const Pages = () => {
         </Route>
         <Route path="/errorpage">
           <NotFound />
+        </Route>
+        <Route path="/blogdetail/:blogId">
+          <BlogDetail />
         </Route>
         <Route path="*" exact>
           <Redirect to="/errorpage" />

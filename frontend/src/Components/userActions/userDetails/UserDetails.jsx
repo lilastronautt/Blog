@@ -2,10 +2,13 @@ import "./UserDetails.css";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useDropzone } from "react-dropzone";
-import { Prompt } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
+import Success from "../../../lib/SuccessfullMessage/Sucessfull";
 
 const UserDetails = () => {
+  const history = useHistory();
+
   //useState for saving the form data
   const [formData, setFormData] = useState({
     name: "",
@@ -13,13 +16,18 @@ const UserDetails = () => {
     emailAddress: "",
     gender: "",
     bio: "",
-    SocialMedia: {
-      ig: "",
-      fb: "",
-    },
     profilePic: null,
     dob: "",
   });
+
+  //usState for changing the msg on the register button
+  const [btnMsg, setBtnMsg] = useState("Submit details");
+
+  const [showSucMsg, setSucMsg] = useState(false);
+
+  // if error occurs this function is responsible for displaying the appropriate msg
+  const [errorMsg, setErrorMsg] = useState(false);
+
   // list of all genders
   const genderOptions = ["Male", "Female", "Non-binary", "Other"];
 
@@ -58,7 +66,7 @@ const UserDetails = () => {
 
   const detailsPicHan = (accept) => {
     setFormData((prev) => {
-      return { ...prev, profilePic: accept };
+      return { ...prev, profilePic: accept[0] };
     });
   };
 
@@ -69,6 +77,8 @@ const UserDetails = () => {
 
   // actions to be performed when the user details form is usbmitted
   const detailsFormHandler = () => {
+    setBtnMsg(() => "Submitting ...");
+    setErrorMsg(() => false);
     (async () => {
       const formData1 = new FormData();
       formData1.append("name", formData.name);
@@ -77,8 +87,6 @@ const UserDetails = () => {
       formData1.append("gender", formData.gender);
       formData1.append("bio", formData.bio);
       formData1.append("profilePic", formData.profilePic);
-      formData1.append("ig", formData.SocialMedia.ig);
-      formData1.append("fb", formData.SocialMedia.fb);
       formData1.append("dob", formData.dob);
       try {
         const req = await fetch("http://localhost:3000/users/userdetails", {
@@ -86,10 +94,24 @@ const UserDetails = () => {
           body: formData1,
         });
         const res = await req.json();
+
+        if (res.msg == "error") {
+          setErrorMsg(() => true);
+        } else {
+          setSucMsg(() => true);
+          setTimeout(() => {
+            setSucMsg(() => false);
+          }, 1500);
+          setTimeout(() => {
+            history.replace("/");
+          }, 2000);
+        }
       } catch (e) {
-      } finally {
+        console.log(e);
+        setErrorMsg(() => true);
       }
     })();
+    setBtnMsg(() => "Submit details");
   };
 
   // perform the details functionalities when button is clicked
@@ -99,7 +121,6 @@ const UserDetails = () => {
 
   return (
     <>
-      <Prompt when={true} message={() => "Please Complete the registration!"} />
       <div className="userdeatils_cont">
         <h1>Please enter your details</h1>
         <form className="userdetails_cont__form" onSubmit={detailsFormHandler}>
@@ -136,15 +157,13 @@ const UserDetails = () => {
               onChange={detailsBioHan}
             />
           </section>
-          <section className="userdetails_cont__pairs">
-            <input placeholder="Instagram link" />
-            <input placeholder="Facebook link" />
-          </section>
+
           <select
             id="gender"
             name="gender"
             value={formData.gender}
             onChange={handleGenderChange}
+            required
           >
             <option value="">Select gender*</option>
             {genderOptions.map((gender, index) => (
@@ -163,17 +182,24 @@ const UserDetails = () => {
             placeholderText="Select a date of birth*"
             // isClearable // Adds a clear button
             style={{ witdh: "100%", textAlign: "center" }}
+            required
           />
           <div {...getRootProps()} className="userdetails_cont_imgdrop">
-            <input {...getInputProps()} />
+            <input {...getInputProps()} required />
             {formData.profilePic
-              ? formData.profilePic[0].path
+              ? formData.profilePic.path
               : "Browse or drop image"}
           </div>
         </form>
+        {errorMsg && (
+          <div className="userdetails_cont__error">
+            Something went wrong.(check wheter you've entered all fields)
+          </div>
+        )}
         <button onClick={submitDetailsHan} className="userdetails_btn">
-          Submit details
+          {btnMsg}
         </button>
+        {showSucMsg && <Success />}
       </div>
     </>
   );

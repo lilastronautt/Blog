@@ -1,6 +1,7 @@
 .createblog_main {
   width: 100%;
   margin-top: 7rem;
+  margin-bottom: 1rem;
 }
 
 .createblog_main h2 {
@@ -8,7 +9,7 @@
   font-size: 1.2rem;
   width: 50%;
   margin: 0 auto;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid #464648;
 }
@@ -135,8 +136,17 @@ svg:hover .ql-stroke {
   background-color: #444; /* Slightly lighter background on hover/focus */
 }
 
+.login_cont__error {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 0.3rem;
+  color: #15cf81;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
 .createBlog_cont__btn {
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-left: 1rem;
   margin-bottom: 2rem;
   padding: 0.5rem 3.5rem;

@@ -1,17 +1,29 @@
 import DOMPurify from "dompurify";
 import { SvgLoader, SvgProxy } from "react-svgmt";
-
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import "./HomePageList.css";
 
 import uparrow from "../../../src/assets/upA.svg";
 import downarrow from "../../../src/assets/downA.svg";
 
-const HomePageList = ({ title, textCont, img, index }) => {
+const HomePageList = ({
+  blogId,
+  title,
+  textCont,
+  img,
+  index,
+  upvotes,
+  downvotes,
+}) => {
   const sanitizedHTML = DOMPurify.sanitize(textCont);
+  const history = useHistory();
+  const openBlogHandler = () => {
+    history.push(`/blogdetail/${blogId}`);
+  };
 
   return (
     <>
-      <div className="hpl_cont">
+      <div className="hpl_cont" onClick={openBlogHandler}>
         <h2>{title}</h2>
         <div className="hpl_img__cont">
           <img src={img} />
@@ -23,14 +35,15 @@ const HomePageList = ({ title, textCont, img, index }) => {
         ></p>
         <div className="hpl_action__cont">
           <div className="hpl_action__imgcont">
-            <SvgLoader path={uparrow} selector=" ">
-              <SvgProxy />
+            <SvgLoader path={uparrow}>
+              <SvgProxy selector="#Star" />
             </SvgLoader>
           </div>
-          <div>12</div>
+          <div>{upvotes}</div>
+          <div>{downvotes}</div>
           <div className="hpl_action__imgcont hpl_down__svg">
-            <SvgLoader path={downarrow} selector=" ">
-              <SvgProxy />
+            <SvgLoader path={downarrow}>
+              <SvgProxy selector="#Star" />
             </SvgLoader>
           </div>
         </div>

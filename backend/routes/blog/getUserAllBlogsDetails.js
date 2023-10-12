@@ -7,14 +7,15 @@ router.use(cors());
 
 router.get("/getuserallblogsdetails/:username", (req, res, next) => {
   if (!req.params) res.json({ msg: "error" });
-  db.query(
-    "SELECT * FROM blogs WHERE username = ?",
-    [req.params.username],
-    (error, results) => {
-      if (error) res.json({ msg: "error" });
-      res.json(results);
-    }
-  );
+  else
+    db.query(
+      "SELECT * FROM blogs WHERE author = ?",
+      [req.params.username],
+      (error, results) => {
+        if (error) res.json({ msg: "error" });
+        else res.json(results);
+      }
+    );
 });
 
 module.exports = router;
