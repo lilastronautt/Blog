@@ -1,10 +1,19 @@
+.loader_cont {
+  background: #dad7dc;
+  border-radius: 8px;
+  text-align: center;
+  margin: 1rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
 .loader {
+  border: 5px solid grey;
+  border-top: 5px solid black;
   border-radius: 50%;
   animation: ani 1500ms 1s 100 linear forwards;
-  border: 5px solid rgba(21, 207, 129, 0.4);
-  border-top: 5px solid #15cf81;
-  margin: 1rem auto;
-  animation: ani 1500ms 1s 100 linear forwards infinite;
 }
 
 @keyframes ani {

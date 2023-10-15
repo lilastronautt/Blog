@@ -12,7 +12,6 @@ router.get("/getuserdetails/:username", (req, res, next) => {
       "SELECT * FROM userdetails WHERE username = ?",
       [req.params.username],
       async (error, results) => {
-        console.log(error);
         if (error) res.json({ msg: "error" });
         else {
           res.json(results[0]);

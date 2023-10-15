@@ -27,7 +27,7 @@ const NavBar = () => {
           <li>
             <NavLink
               className="routerLink"
-              to="/myprofile"
+              to="/userprofile/lilastronautt/allblogs"
               activeClassName="routerLink_active"
             >
               Profile

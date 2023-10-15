@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./CreatePost.css";
 
-const CreatePost = ({ width }) => {
+const CreatePost = ({ width, margin }) => {
   const [imgUrl, setImgUrl] = useState(null);
   useEffect(() => {
     (async () => {
@@ -23,7 +23,10 @@ const CreatePost = ({ width }) => {
 
   return (
     <Link to="/createblog">
-      <section className="createPost" style={{ width: `${width}%` }}>
+      <section
+        className="createPost"
+        style={{ width: `${width}%`, marginTop: `${margin}rem` }}
+      >
         <div className="createPost__img">
           <img src={imgUrl} />
         </div>

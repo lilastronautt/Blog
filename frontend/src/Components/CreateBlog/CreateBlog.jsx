@@ -77,7 +77,7 @@ const CreateBlog = () => {
             setShowSucMsg(() => false);
           }, 1500);
           setTimeout(() => {
-            history.replace("/myprofile");
+            history.replace("/userprofile/lilastronautt");
           }, 2000);
         } else {
           setShowrrorMsg(() => true);
@@ -124,6 +124,7 @@ const CreateBlog = () => {
             modules={modules}
             placeholder="Start Writing Anything you want..."
           ></ReactQuill>
+
           {showErrorMsg && (
             <div className="login_cont__error">
               Something went wrong,check whether all fields are filled!

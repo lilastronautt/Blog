@@ -11,8 +11,8 @@ const BlogList = ({ blogId, title, textCont, imgUrl, className }) => {
   };
   return (
     <>
-      <div className={className} onClick={openBlogHandler}>
-        <div className="profileblog_cont">
+      <div className={className}>
+        <div className="profileblog_cont" onClick={openBlogHandler}>
           <div>
             <h3>{title}</h3>
             <p

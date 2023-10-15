@@ -5,10 +5,12 @@ import Register from "../Components/userActions/register/Register";
 import UserDetails from "../Components/userActions/userDetails/UserDetails";
 import HomePage from "../Components/HomePage/HomePage";
 import CreateBlog from "../Components/CreateBlog/CreateBlog";
-import MyProfile from "../Components/MyProfile/MyProfile";
+import UserProfile from "../Components/UserProfile/UserProfile";
+import UpvotedBlogs from "../Components/UpvotedBlogs/UpvotedBlog";
 import Backdrop from "../lib/Backdrop/Backdrop";
 import NotFound from "../Components/NotFound/NotFound";
 import BlogDetail from "../Components/BlogDetail/BlogDetail";
+import AllBlogs from "../Components/AllBlogs/AllBlogs";
 
 const Pages = () => {
   return (
@@ -33,8 +35,13 @@ const Pages = () => {
         <Route path="/createblog" exact>
           <CreateBlog />
         </Route>
-        <Route path="/myprofile" exact>
-          <MyProfile />
+        <Route path="/userprofile/:username/allblogs" exact>
+          <UserProfile />
+          <AllBlogs />
+        </Route>
+        <Route path="/userprofile/:username/upvotedblogs" exact>
+          <UserProfile />
+          <UpvotedBlogs />
         </Route>
         <Route path="/errorpage">
           <NotFound />
