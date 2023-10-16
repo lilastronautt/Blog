@@ -13,6 +13,9 @@ const HomePage = () => {
   //for showing loader till the time the async func runs
   const [showLoader, setShowLoader] = useState(true);
 
+  const [showErrorMsg, setShowErrorMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
   useEffect(() => {
     let username = "lilastronautt";
     (async () => {
@@ -23,9 +26,21 @@ const HomePage = () => {
         const jsonData = await res.json();
         setBlogData(() => jsonData);
         setShowLoader(false);
-        console.log(jsonData);
+        if (jsonData.msg == "error") {
+          setShowErrorMsg(() => true);
+          setErrorMsg(() => "something went wrong!");
+          return;
+        }
+        if (!jsonData[0]) {
+          setShowErrorMsg(() => true);
+          setErrorMsg(
+            () =>
+              "Uhoh,looks like this site dosent have any blog, WHAT , go create one??:)"
+          );
+        }
       } catch (e) {
-      } finally {
+        setShowErrorMsg(() => true);
+        setErrorMsg(() => "something went wrong");
       }
     })(); //IIFE for getting all the blog details
   }, []);
@@ -34,6 +49,7 @@ const HomePage = () => {
     <>
       <div className="homepage_cont">
         <CreatePost width={50} />
+        {showErrorMsg && <div className="homepage_errormsg">{errorMsg}</div>}
         {showLoader && <Loader dimension={4} />}
         {showLoader ||
           blogData?.map((el, index) => {

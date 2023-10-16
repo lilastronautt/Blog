@@ -32,7 +32,7 @@ const UpvoteBlogs = () => {
         }
         if (!jsonData[0]) {
           setShowErrorMsg(() => true);
-          setErrorMsg(() => "Uhoh, you haven't posted anything :)");
+          setErrorMsg(() => "Uhoh, you haven't liked any post :)");
         }
       } catch (e) {
         setShowErrorMsg(() => true);

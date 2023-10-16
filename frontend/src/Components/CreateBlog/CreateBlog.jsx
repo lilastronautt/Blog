@@ -77,7 +77,7 @@ const CreateBlog = () => {
             setShowSucMsg(() => false);
           }, 1500);
           setTimeout(() => {
-            history.replace("/userprofile/lilastronautt");
+            history.replace("/userprofile/lilastronautt/allblogs");
           }, 2000);
         } else {
           setShowrrorMsg(() => true);
@@ -133,9 +133,9 @@ const CreateBlog = () => {
           <button className="createBlog_cont__btn" onClick={saveBlogDetailsBtn}>
             {btnMsg}
           </button>
+          {showSucMsg && <Success />}
         </section>
       </form>
-      {showSucMsg && <Success />}
     </>
   );
 };

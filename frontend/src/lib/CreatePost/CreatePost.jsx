@@ -1,38 +1,56 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import nodp from "../../assets/nodp.jpg";
 import "./CreatePost.css";
 
 const CreatePost = ({ width, margin }) => {
   const [imgUrl, setImgUrl] = useState(null);
+  const history = useHistory();
   useEffect(() => {
     (async () => {
       let username = "lilastronautt";
-      const jsonData = await fetch(
-        `http://localhost:3000/users/getuserdetails/${username}`
-      );
-      const res = await jsonData.json();
-      const binaryData = new Uint8Array(res.profilepic.data);
-      let base64Data = "";
-      for (let i = 0; i < binaryData.length; i++) {
-        base64Data += String.fromCharCode(binaryData[i]);
+      try {
+        const jsonData = await fetch(
+          `http://localhost:3000/users/getuserdetails/${username}`
+        );
+        const res = await jsonData.json();
+        if (!res.length) return;
+        console.log(res);
+        const binaryData = new Uint8Array(res.profilepic.data);
+        let base64Data = "";
+        for (let i = 0; i < binaryData.length; i++) {
+          base64Data += String.fromCharCode(binaryData[i]);
+        }
+        base64Data = btoa(base64Data);
+        setImgUrl(`data:image/png;base64,${base64Data}`);
+      } catch (e) {
+        console.log(e);
       }
-      base64Data = btoa(base64Data);
-      setImgUrl(`data:image/png;base64,${base64Data}`);
     })();
   }, []);
 
+  const createPostOpenHandler = () => {
+    history.push("/createblog");
+  };
+
+  const userProfileOpenHandler = () => {
+    history.push("/userprofile/lilastronautt/allblogs");
+  };
+
   return (
-    <Link to="/createblog">
-      <section
-        className="createPost"
-        style={{ width: `${width}%`, marginTop: `${margin}rem` }}
-      >
-        <div className="createPost__img">
-          <img src={imgUrl} />
-        </div>
-        <input placeholder="Create post" className="routerLink" />
-      </section>
-    </Link>
+    <section
+      className="createPost"
+      style={{ width: `${width}%`, marginTop: `${margin}rem` }}
+    >
+      <div className="createPost__img" onClick={userProfileOpenHandler}>
+        <img src={imgUrl || nodp} />
+      </div>
+      <input
+        placeholder="Create post"
+        className="routerLink"
+        onClick={createPostOpenHandler}
+      />
+    </section>
   );
 };
 

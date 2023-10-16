@@ -18,7 +18,9 @@ const BlogList = ({ blogId, title, textCont, imgUrl, className }) => {
             <p
               dangerouslySetInnerHTML={{
                 __html:
-                  sanitizedHTML.slice(0, sanitizedHTML?.length / 2) + "...",
+                  sanitizedHTML.length / 2 > 200
+                    ? sanitizedHTML.slice(0, sanitizedHTML.length / 5) + "..."
+                    : sanitizedHTML.slice(0, sanitizedHTML.length / 2) + "...",
               }}
             ></p>
           </div>

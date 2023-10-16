@@ -9,6 +9,7 @@ import cancel from "../../../assets/cancel.png";
 import Success from "../../../lib/SuccessfullMessage/Sucessfull";
 
 import "../login/Login.css";
+import "./Register.css";
 
 const Register = () => {
   // dispatch actions to the store
@@ -145,17 +146,19 @@ const Register = () => {
       <div className="login_cont__msg">Welcome!</div>
       <form onSubmit={registerFormHandler} className="login_cont__form">
         <section>
-          <input
-            type="text"
-            placeholder="Enter Username"
-            onChange={registerUsernameHandler}
-            value={registerFormData.username}
-            required
-          />
+          <div style={{ position: "relative" }}>
+            <input
+              type="text"
+              placeholder="Enter Username"
+              onChange={registerUsernameHandler}
+              value={registerFormData.username}
+              required
+            />
+            {showLoader && <Loader dimension={1} className="loader_register" />}
+          </div>
           {usernameExists && (
             <div className="login_cont__error">username already exists</div>
           )}
-          {showLoader && <Loader dimension={1.5} />}
         </section>
 
         <section>

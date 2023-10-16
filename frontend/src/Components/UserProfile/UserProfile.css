@@ -32,10 +32,13 @@
 }
 
 .myprofile_errormsg {
-  color: #15cf81;
+  padding: 1rem 0;
+  background: rgba(255, 255, 255, 0.2);
   width: 45%;
   margin: 3rem auto;
   text-align: center;
+  color: red;
+  border-radius: 8px;
 }
 
 .usernav {
@@ -47,8 +50,10 @@
 
 .usernav:hover {
   background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
 }
 
 .usernav_active {
   background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
 }

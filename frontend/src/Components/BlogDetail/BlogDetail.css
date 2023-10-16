@@ -1,6 +1,17 @@
 .blogdetail_cont {
   width: 100%;
   margin-top: 7rem;
+  margin-bottom: 4rem;
+}
+
+.blogdetail_errormsg {
+  padding: 1rem 0;
+  background: rgba(255, 255, 255, 0.2);
+  width: 45%;
+  margin: 3rem auto;
+  text-align: center;
+  color: red;
+  border-radius: 8px;
 }
 
 .blogdetail_main {
@@ -30,11 +41,12 @@
 
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 1.5rem;
 }
 
 .bd_userinfo__data h3 {
   font-weight: normal;
+  font-size: 0.9rem;
 }
 
 .blogdetail_cont h1 {
