@@ -9,6 +9,12 @@
   padding: 0 1rem;
 }
 
+@media (max-width: 1000px) {
+  .profileblog_cont {
+    width: 70%;
+  }
+}
+
 .profileblog_cont:hover {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
@@ -27,4 +33,14 @@
 .profileblog_cont img {
   height: 7rem;
   padding: 0.5rem 0;
+}
+
+@media (max-width: 600px) {
+  .profileblog_cont {
+    width: 90%;
+  }
+
+  .profileblog_cont p {
+    font-size: 1rem;
+  }
 }

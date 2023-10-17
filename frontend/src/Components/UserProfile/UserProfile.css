@@ -57,3 +57,29 @@
   background: rgba(255, 255, 255, 0.2);
   border-radius: 8px;
 }
+
+@media (max-width: 1000px) {
+  .blog_hdngbtn > div {
+    width: 70%;
+  }
+
+  .usernav {
+    font-size: 1.2rem;
+  }
+  .myprofile_errormsg {
+    width: 70%;
+  }
+}
+
+@media (max-width: 600px) {
+  .blog_hdngbtn > div {
+    width: 90%;
+  }
+
+  .usernav {
+    font-size: 0.8rem;
+  }
+  .myprofile_errormsg {
+    width: 90%;
+  }
+}

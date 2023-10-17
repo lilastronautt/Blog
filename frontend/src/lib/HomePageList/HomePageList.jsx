@@ -1,7 +1,7 @@
 import DOMPurify from "dompurify";
 import { SvgLoader, SvgProxy } from "react-svgmt";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./HomePageList.css";
 
 import uparrow from "../../../src/assets/upA.svg";
@@ -20,6 +20,8 @@ const HomePageList = ({
   const history = useHistory();
   const [upvotes1, setUpvotes] = useState(upvotes);
   const [downvotes1, setDownvotes] = useState(downvotes);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [sliceLength, setSliceLength] = useState(0);
 
   const openBlogHandler = () => {
     history.push(`/blogdetail/${blogId}`);
@@ -46,6 +48,32 @@ const HomePageList = ({
       setDownvotes(res[0].downvotes);
     })();
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener when the component unmounts
+    if (windowWidth < 482) {
+      setSliceLength(() =>
+        sanitizedHTML.length > 80
+          ? sanitizedHTML.length / 15
+          : sanitizedHTML.length / 2
+      );
+    } else {
+      setSliceLength(() =>
+        sanitizedHTML.length / 2 > 200
+          ? sanitizedHTML.length / 5
+          : sanitizedHTML.length / 2
+      );
+    }
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [windowWidth]);
 
   return (
     <>
@@ -74,10 +102,7 @@ const HomePageList = ({
           </div>
           <p
             dangerouslySetInnerHTML={{
-              __html:
-                sanitizedHTML.length / 2 > 200
-                  ? sanitizedHTML.slice(0, sanitizedHTML.length / 5) + "..."
-                  : sanitizedHTML.slice(0, sanitizedHTML.length / 2) + "...",
+              __html: sanitizedHTML.slice(0, sliceLength) + "...",
             }}
           ></p>
           <div className="hpl_msg">Click to see more</div>

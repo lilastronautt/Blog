@@ -19,6 +19,12 @@
   margin: 0 auto;
 }
 
+@media (max-width: 768px) {
+  .blogdetail_main {
+    width: 80%;
+  }
+}
+
 .blogdetail_userinfo {
   display: flex;
   align-items: center;

@@ -12,3 +12,9 @@
   color: red;
   border-radius: 8px;
 }
+
+@media (max-width: 1000px) {
+  .homepage_errormsg {
+    width: 80%;
+  }
+}

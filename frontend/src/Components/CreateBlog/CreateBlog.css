@@ -45,6 +45,13 @@
   color: #d7dadc;
 }
 
+@media (max-width: 950px) {
+  .createBlog_cont {
+    width: 80%;
+    padding: 0.5rem;
+  }
+}
+
 .createBlog_cont__inputs div {
   text-align: center;
   background: transparent;
@@ -137,7 +144,7 @@ svg:hover .ql-stroke {
   background-color: #444; /* Slightly lighter background on hover/focus */
 }
 
-.login_cont__error {
+.create_cont__error {
   margin-top: 1rem;
   margin-bottom: 1rem;
   margin-left: 0.3rem;

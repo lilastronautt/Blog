@@ -11,6 +11,12 @@
   padding: 0.5rem 1rem;
 }
 
+@media (max-width: 1000px) {
+  .profile_cont {
+    display: none;
+  }
+}
+
 .profile_cont__basicsImg {
   width: 70%;
   margin: 0 auto;

@@ -16,6 +16,9 @@ const HomePage = () => {
   const [showErrorMsg, setShowErrorMsg] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [dim, setDim] = useState(50);
+
   useEffect(() => {
     let username = "lilastronautt";
     (async () => {
@@ -29,6 +32,7 @@ const HomePage = () => {
         if (jsonData.msg == "error") {
           setShowErrorMsg(() => true);
           setErrorMsg(() => "something went wrong!");
+          setBlogData(() => []);
           return;
         }
         if (!jsonData[0]) {
@@ -43,12 +47,27 @@ const HomePage = () => {
         setErrorMsg(() => "something went wrong");
       }
     })(); //IIFE for getting all the blog details
-  }, []);
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    if (windowWidth < 1000) {
+      setDim(() => 80);
+    } else {
+      setDim(() => 50);
+    }
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [windowWidth]);
 
   return (
     <>
       <div className="homepage_cont">
-        <CreatePost width={50} />
+        <CreatePost width={dim} />
         {showErrorMsg && <div className="homepage_errormsg">{errorMsg}</div>}
         {showLoader && <Loader dimension={4} />}
         {showLoader ||

@@ -20,6 +20,16 @@
   margin-left: 3rem;
 }
 
+@media (max-width: 768px) {
+  .nav {
+    padding: 0 2rem;
+  }
+
+  .nav_link__cont li {
+    margin-left: 1rem;
+  }
+}
+
 .nav_link__cont li:hover {
   cursor: pointer;
 }
@@ -36,4 +46,13 @@
 .nav_link__cont li:last-child:hover {
   background: white;
   color: black;
+}
+
+@media (max-width: 31rem) {
+  .nav li {
+    display: none;
+  }
+  .nav li:last-child {
+    display: block;
+  }
 }

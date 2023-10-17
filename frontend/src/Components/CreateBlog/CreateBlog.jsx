@@ -126,7 +126,7 @@ const CreateBlog = () => {
           ></ReactQuill>
 
           {showErrorMsg && (
-            <div className="login_cont__error">
+            <div className="create_cont__error">
               Something went wrong,check whether all fields are filled!
             </div>
           )}

@@ -1,8 +1,7 @@
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
 import SideProfile from "../../lib/SideProfile/SideProfile";
 import CreatePost from "../../lib/CreatePost/CreatePost";
-import AllBlogs from "../AllBlogs/AllBlogs";
-import UpvotedBlogs from "../UpvotedBlogs/UpvotedBlog";
 
 import "./UserProfile.css";
 

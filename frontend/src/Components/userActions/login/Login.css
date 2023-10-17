@@ -1,12 +1,12 @@
 .login_cont {
   position: fixed;
-  height: 98vh;
+  height: 94vh;
   width: 40vw;
   background: #1a1a1b;
   left: 50%;
   margin-left: -20vw;
   top: 50%;
-  margin-top: -49vh;
+  margin-top: -47vh;
   z-index: 1000;
   text-align: center;
   padding: 4rem 0;
@@ -15,6 +15,13 @@
   justify-content: space-around;
   align-items: center;
   box-shadow: 0px 0px 5px 1px rgba(218, 215, 220, 0.3);
+}
+
+@media (max-width: 63rem) {
+  .login_cont {
+    width: 70vw;
+    margin-left: -35vw;
+  }
 }
 
 .login_cont__icon {
@@ -41,15 +48,6 @@
   text-align: left;
 }
 
-.login_cont__form label {
-  display: block;
-  margin-bottom: 0.3rem;
-}
-
-/* .login_cont__form input:nth-child(1) {
-  margin-bottom: 2px;
-} */
-
 .login_cont__form input {
   margin-bottom: 1rem;
   padding: 0.5rem 1rem;
@@ -65,7 +63,7 @@
 }
 
 .login_cont__form input:focus-visible {
-  outline: none;
+  outline: 1px solid #dad7dc;
 }
 
 .login_cont__error {
@@ -98,4 +96,26 @@
 
 .login_cont__otherOp:hover {
   color: #d7dadc;
+}
+
+@media (max-width: 30rem) {
+  .login_cont {
+    width: 80vw;
+    margin-left: -40vw;
+    height: 90vh;
+    margin-top: -45vh;
+  }
+
+  .login_cont__msg {
+    font-size: 1.5rem;
+    color: #d7dadc;
+  }
+
+  .login_cont__form input {
+    width: 12rem;
+  }
+
+  .login_cont__otherOp {
+    font-size: 0.8rem;
+  }
 }
