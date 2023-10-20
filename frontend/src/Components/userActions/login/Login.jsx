@@ -1,21 +1,23 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-
+import { useHistory } from "react-router-dom";
 import { blogActions } from "../../../store/store";
-
+import Cookies from "js-cookie";
 import cancel from "../../../assets/cancel.png";
 
 import "./Login.css";
 
 const Login = () => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   //useState for handling form data
   const [loginFormData, setLoginFormData] = useState({
     username: "",
     password: "",
   });
+
+  const [showErrMsg, setShowErrorMsg] = useState(false);
 
   //save the clicks on username input
   const loginUsernameHandler = (event) => {
@@ -33,6 +35,7 @@ const Login = () => {
 
   //actions to be formed when login form is submitted
   const loginFormHandler = (e) => {
+    setShowErrorMsg(() => false);
     e.preventDefault(); // to prevent it from reloading the page
 
     (async () => {
@@ -46,8 +49,19 @@ const Login = () => {
           body: JSON.stringify(loginFormData),
         });
         const res = await jsonRes.json();
+        console.log(res);
+        if (res.msg == "no") {
+          history.push("/register/userdetails");
+          dispatch(blogActions.setuserNameForDeatils(loginFormData.username));
+        } else if (res.msg == "error") {
+          setShowErrorMsg(() => true);
+        } else {
+          dispatch(blogActions.setUsername(loginFormData.username));
+          Cookies.set("username", loginFormData.username, { expires: 7 });
+          history.replace("/");
+        }
       } catch (e) {
-      } finally {
+        setShowErrorMsg(() => true);
       }
     })(); // IIFE for checking if the user exist and authenticate then
   };
@@ -79,6 +93,9 @@ const Login = () => {
               value={loginFormData.password}
             />
           </section>
+          {showErrMsg && (
+            <div className="login_cont__error">Invalid creadentials</div>
+          )}
           <button type="submit" className="login_cont_formButton">
             Login
           </button>

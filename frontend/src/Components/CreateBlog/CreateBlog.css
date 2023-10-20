@@ -50,6 +50,12 @@
     width: 80%;
     padding: 0.5rem;
   }
+  .createblog_main h2 {
+    width: 80%;
+  }
+  .createBlog_cont h2 {
+    width: 100%;
+  }
 }
 
 .createBlog_cont__inputs div {
@@ -96,7 +102,7 @@
 .ql-editor h1,
 .ql-editor h2,
 .ql-editor h3 {
-  height: 5rem;
+  height: auto;
   color: #d7dadc;
   font-size: 1rem;
 }

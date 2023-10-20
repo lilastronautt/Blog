@@ -3,12 +3,13 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useDropzone } from "react-dropzone";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import Success from "../../../lib/SuccessfullMessage/Sucessfull";
 
 const UserDetails = () => {
   const history = useHistory();
-
+  const userNameForDetails = useSelector((state) => state.userNameForDetails);
   //useState for saving the form data
   const [formData, setFormData] = useState({
     name: "",
@@ -81,6 +82,7 @@ const UserDetails = () => {
     setErrorMsg(() => false);
     (async () => {
       const formData1 = new FormData();
+      formData1.append("username", userNameForDetails);
       formData1.append("name", formData.name);
       formData1.append("mobileNum", formData.mobileNum);
       formData1.append("emailAddress", formData.emailAddress);
@@ -103,7 +105,7 @@ const UserDetails = () => {
             setSucMsg(() => false);
           }, 1500);
           setTimeout(() => {
-            history.replace("/");
+            history.replace("/login");
           }, 2000);
         }
       } catch (e) {

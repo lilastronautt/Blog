@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import Loader from "../../lib/Loader/Loader";
 import CreatePost from "../../lib/CreatePost/CreatePost";
 import HomePageList from "../../lib/HomePageList/HomePageList";
@@ -20,12 +19,9 @@ const HomePage = () => {
   const [dim, setDim] = useState(50);
 
   useEffect(() => {
-    let username = "lilastronautt";
     (async () => {
       try {
-        const res = await fetch(
-          `http://localhost:3000/blog/getuserallblogsdetails/${username}`
-        );
+        const res = await fetch(`http://localhost:3000/blog/getallblogs`);
         const jsonData = await res.json();
         setBlogData(() => jsonData);
         setShowLoader(false);

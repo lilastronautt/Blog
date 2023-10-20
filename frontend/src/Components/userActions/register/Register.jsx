@@ -71,7 +71,7 @@ const Register = () => {
     if (usernameExists) {
       return;
     }
-    console.log("ran");
+
     if (registerFormData.password != registerFormData.confirmPassword) {
       dispatch(blogActions.setPassNotEqual(true)); // if passwords donot match
       return;
@@ -98,6 +98,9 @@ const Register = () => {
             setTimeout(() => {
               history.replace("/register/userdetails");
             }, 2000);
+            dispatch(
+              blogActions.setuserNameForDeatils(registerFormData.username)
+            );
           }
         } catch (e) {
           setErrorMsg(() => true);

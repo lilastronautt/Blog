@@ -15,7 +15,7 @@ router.post("/userdetails", upload.single("profilePic"), (req, res, next) => {
     db.query(
       "insert into userdetails values(?,?,?,?,?,?,?,?)",
       [
-        "lilastronautt",
+        req.body.username,
         req.body.name,
         profilePicData,
         req.body.bio,
@@ -28,6 +28,13 @@ router.post("/userdetails", upload.single("profilePic"), (req, res, next) => {
         console.log(error);
         if (error) res.json({ msg: "error" });
         else {
+          db.query(
+            "update users set hasdetails = 1 where username = ?",
+            [req.body.username],
+            (error, results) => {
+              if (error) res.json({ msg: "error" });
+            }
+          );
           res.json({ msg: "ok" });
         }
       }

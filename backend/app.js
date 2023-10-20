@@ -11,6 +11,8 @@ const getBlogDetailsRouter = require("./routes/blog/getBlogDetails");
 const blogupvotes = require("./routes/blog/blogUpvote.js");
 const blogdownvotes = require("./routes/blog/blogDownvote.js");
 const getUsersUpvotedB = require("./routes/blog/getUsersUpvotedBlogs");
+const updateBlogDetails = require("./routes/blog/updateBlogDetails.js");
+const getallBlogs = require("./routes/blog/getAllBlogs");
 const cors = require("cors");
 
 const corsOption = {
@@ -30,6 +32,8 @@ app.use("/blog", getBlogDetailsRouter);
 app.use("/blog", blogupvotes);
 app.use("/blog", blogdownvotes);
 app.use("/blog", getUsersUpvotedB);
+app.use("/blog", updateBlogDetails);
+app.use("/blog", getallBlogs);
 
 app.use(cors());
 

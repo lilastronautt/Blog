@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Loader from "../../lib/Loader/Loader";
 import DOMPurify from "dompurify";
 import { SvgLoader, SvgProxy } from "react-svgmt";
@@ -24,7 +25,8 @@ const BlogDetail = () => {
   const sanitizedHTML = DOMPurify.sanitize(blogData?.content);
   const [showErrorMsg, setShowErrorMsg] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-
+  const username = useSelector((state) => state.username);
+  console.log(username);
   useEffect(() => {
     if (!blogData?.author) {
       (async () => {
@@ -119,13 +121,13 @@ const BlogDetail = () => {
   const upvotesHandler = () => {
     (async () => {
       const req = await fetch(
-        `http://localhost:3000/blog/upvote/${params.blogId}`,
+        `http://localhost:3000/blog/upvote/${params.blogId}?username=${username}`,
         {
           method: "POST",
         }
       );
       const res = await req.json();
-      console.log(res[0].upvotes);
+
       setUpvotes(res[0].upvotes);
     })();
   };
@@ -133,13 +135,13 @@ const BlogDetail = () => {
   const downvotesHandler = () => {
     (async () => {
       const req = await fetch(
-        `http://localhost:3000/blog/downvote/${params.blogId}`,
+        `http://localhost:3000/blog/downvote/${params.blogId}?username=${username}`,
         {
           method: "POST",
         }
       );
       const res = await req.json();
-      console.log(res[0].downvotes);
+
       setDownvotes(res[0].downvotes);
     })();
   };

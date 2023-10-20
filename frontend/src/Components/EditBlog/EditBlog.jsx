@@ -1,24 +1,47 @@
-import { useState, useCallback } from "react";
+import "./EditBlog.css";
+import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { Prompt, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Prompt, useHistory, useParams } from "react-router-dom";
+import DOMPurify from "dompurify";
 import ReactQuill, { modules } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 import Success from "../../lib/SuccessfullMessage/Sucessfull";
 
-import "./CreateBlog.css";
-
-const CreateBlog = () => {
+const EditBlog = () => {
+  const history = useHistory();
+  const params = useParams();
+  const username = useSelector((state) => state.username);
   // useState for saving the create blog details
-  const [BlogD, setBlogD] = useState({ title: "", img: null, textCont: "" });
+  const [BlogD, setBlogD] = useState({
+    blogId: params.blogId,
+    title: "",
+    image: null,
+    content: "",
+  });
   const [cbhFormState, setSBHFormState] = useState(false);
   const [showSucMsg, setShowSucMsg] = useState(false);
   const [showErrorMsg, setShowrrorMsg] = useState(false);
-  const [btnMsg, setBtnMsg] = useState("POST");
+  const [btnMsg, setBtnMsg] = useState("UPDATE");
 
-  const history = useHistory();
-  const username = useSelector((state) => state.username);
+  useEffect(() => {
+    (async () => {
+      try {
+        const req = await fetch(
+          `http://localhost:3000/blog/getblogdetails/${params.blogId}`
+        );
+        const res = await req.json();
+        setBlogD(() => res[0]);
+        if (res.msg == "error") {
+          setShowrrorMsg(() => true);
+        }
+      } catch (e) {
+        setShowrrorMsg(() => true);
+      }
+    })();
+  }, []);
+
   // sav the clicks on every input
   const onChangeTitle = (event) => {
     setBlogD((prev) => {
@@ -28,7 +51,7 @@ const CreateBlog = () => {
 
   const blogImageHandler = useCallback((event) => {
     setBlogD((prev) => {
-      return { ...prev, img: event[0] };
+      return { ...prev, image: event[0] };
     });
   }, []);
 
@@ -43,35 +66,40 @@ const CreateBlog = () => {
     const value1 = await value;
     body = value1;
     setBlogD((prev) => {
-      return { ...prev, textCont: body };
+      return { ...prev, content: body };
     });
   };
 
   //  actions to be performed when the user is finished typing
   const saveBlogDetailsBtn = (event) => {
-    setBtnMsg(() => "POSTING...");
+    setBtnMsg(() => "UPDATING...");
     event.preventDefault();
+
     setSBHFormState(() => false);
-    if (!BlogD.img || !BlogD.textCont || !BlogD.title) {
+    if (!BlogD.image || !BlogD.content || !BlogD.title) {
       // if anyone of the field is empty prevent from submitting
-      setBtnMsg(() => "POST");
+      setBtnMsg(() => "UPDATE");
       setShowrrorMsg(() => true);
       return;
     }
     const formData = new FormData();
-    formData.append("author", username);
+    formData.append("blogId", BlogD.blogId);
     formData.append("title", BlogD.title);
-    formData.append("img", BlogD.img);
-    formData.append("textCont", BlogD.textCont);
+    formData.append("img", BlogD.image);
+    formData.append("textCont", BlogD.content);
+
     try {
       setShowrrorMsg(() => false);
       (async () => {
-        const jsonData = await fetch("http://localhost:3000/blog/blogdetails", {
-          method: "POST",
-          body: formData,
-        });
+        const jsonData = await fetch(
+          "http://localhost:3000/blog/updateblogdetails",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
         const res = await jsonData.json();
-        setBtnMsg(() => "POST");
+        setBtnMsg(() => "UPDATE");
         if (res.msg == "okay") {
           setShowSucMsg(() => true);
           setTimeout(() => {
@@ -86,7 +114,6 @@ const CreateBlog = () => {
       })();
     } catch (e) {
       setShowrrorMsg(() => true);
-    } finally {
     }
   };
 
@@ -103,9 +130,9 @@ const CreateBlog = () => {
         }
       />
       <form className="createblog_main" onFocus={cbfHandler}>
-        <h2> Create a post</h2>
+        <h2> Edit Post</h2>
         <section className="createBlog_cont">
-          <h2>POST</h2>
+          <h2>PUT</h2>
           <div className="createBlog_cont__inputs">
             <input
               type="text"
@@ -116,14 +143,14 @@ const CreateBlog = () => {
             />
             <div {...getRootProps()}>
               <input {...getInputProps()} />
-              {BlogD.img ? BlogD.img.path : "Browse or drop image"}
+              {BlogD.image?.path ? BlogD.image.path : "Browse or drop image"}
             </div>
           </div>
           <ReactQuill
             theme="snow"
             onChange={onChangeEditorCon}
             modules={modules}
-            placeholder="Start Writing Anything you want..."
+            value={DOMPurify.sanitize(BlogD?.content)}
           ></ReactQuill>
 
           {showErrorMsg && (
@@ -141,4 +168,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog;
+export default EditBlog;

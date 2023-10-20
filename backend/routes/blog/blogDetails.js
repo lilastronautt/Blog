@@ -14,7 +14,7 @@ router.post("/blogdetails", upload.single("img"), (req, res, next) => {
     const img = req.file.buffer;
     db.query(
       "insert into blogs(author,content,title,upvotes,downvotes,image) values(?,?,?,?,?,?)",
-      ["lilastronautt", req.body.textCont, req.body.title, 0, 0, img],
+      [req.body.author, req.body.textCont, req.body.title, 0, 0, img],
       (error, results) => {
         console.log(error);
         if (error) res.json({ msg: "error" });

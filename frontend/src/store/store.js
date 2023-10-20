@@ -1,9 +1,12 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  username: "",
+  username: "none",
+  userNameForDetails: "",
   usernameExists: false,
   passNotEqual: false,
+  hamburger: false,
+  isLoggedIn: false,
 };
 
 const blogSlice = createSlice({
@@ -15,6 +18,18 @@ const blogSlice = createSlice({
     },
     setPassNotEqual(state, action) {
       return { ...state, passNotEqual: action.payload };
+    },
+    hamburgerOptions(state, action) {
+      return { ...state, hamburger: action.payload };
+    },
+    setuserNameForDeatils(state, action) {
+      return { ...state, userNameForDetails: action.payload };
+    },
+    setUsername(state, action) {
+      return { ...state, username: action.payload };
+    },
+    setLoginState(state, action) {
+      return { ...state, isLoggedIn: action.payload };
     },
   },
 });

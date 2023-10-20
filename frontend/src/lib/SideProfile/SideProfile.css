@@ -9,6 +9,8 @@
   width: 20vw;
   background: #1a1a1b;
   padding: 0.5rem 1rem;
+  max-height: 80vh;
+  overflow-y: scroll;
 }
 
 @media (max-width: 1000px) {

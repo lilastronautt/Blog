@@ -41,6 +41,38 @@
   border-radius: 8px;
 }
 
+.allblog_link {
+  width: 45%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (max-width: 1000px) {
+  .allblog_link {
+    width: 70%;
+  }
+}
+
+@media (max-width: 600px) {
+  .allblog_link {
+    width: 90%;
+  }
+}
+
+.allblog_link button {
+  padding: 0.5rem 1.5rem;
+  background-color: #dad7dc;
+  color: grey;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.allblog_link button:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
 .usernav {
   padding: 1rem;
   font-size: 1.5rem;

@@ -1,19 +1,20 @@
 import { NavLink } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 import SideProfile from "../../lib/SideProfile/SideProfile";
 import CreatePost from "../../lib/CreatePost/CreatePost";
 
 import "./UserProfile.css";
 
 const MyProfile = () => {
+  const username = useSelector((state) => state.username);
   return (
     <>
-      <SideProfile username="lilastronautt" />
+      <SideProfile username={username} />
       <section className="blog_hdngbtn">
         <div>
           <nav>
             <NavLink
-              to="/userprofile/lilastronautt/allblogs"
+              to={`/userprofile/${username}/allblogs`}
               className="routerLink usernav"
               activeClassName="routerLink_active usernav_active"
             >
@@ -21,7 +22,7 @@ const MyProfile = () => {
             </NavLink>
 
             <NavLink
-              to="/userprofile/lilastronautt/upvotedblogs"
+              to={`/userprofile/${username}/upvotedblogs`}
               className="routerLink usernav"
               activeClassName="routerLink_active usernav_active"
             >

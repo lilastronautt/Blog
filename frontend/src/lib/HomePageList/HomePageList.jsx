@@ -1,6 +1,7 @@
 import DOMPurify from "dompurify";
 import { SvgLoader, SvgProxy } from "react-svgmt";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import "./HomePageList.css";
 
@@ -22,6 +23,7 @@ const HomePageList = ({
   const [downvotes1, setDownvotes] = useState(downvotes);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [sliceLength, setSliceLength] = useState(0);
+  const username = useSelector((state) => state.username);
 
   const openBlogHandler = () => {
     history.push(`/blogdetail/${blogId}`);
@@ -29,9 +31,12 @@ const HomePageList = ({
 
   const upvotesHandler = () => {
     (async () => {
-      const req = await fetch(`http://localhost:3000/blog/upvote/${blogId}`, {
-        method: "POST",
-      });
+      const req = await fetch(
+        `http://localhost:3000/blog/upvote/${blogId}?username=${username}`,
+        {
+          method: "POST",
+        }
+      );
       const res = await req.json();
       console.log(res[0].upvotes);
       setUpvotes(res[0].upvotes);
@@ -40,9 +45,12 @@ const HomePageList = ({
 
   const downvotesHandler = () => {
     (async () => {
-      const req = await fetch(`http://localhost:3000/blog/downvote/${blogId}`, {
-        method: "POST",
-      });
+      const req = await fetch(
+        `http://localhost:3000/blog/downvote/${blogId}?username=${username}`,
+        {
+          method: "POST",
+        }
+      );
       const res = await req.json();
       console.log(res[0].downvotes);
       setDownvotes(res[0].downvotes);

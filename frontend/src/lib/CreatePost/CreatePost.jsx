@@ -1,32 +1,35 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import nodp from "../../assets/nodp.jpg";
 import "./CreatePost.css";
 
 const CreatePost = ({ width, margin }) => {
   const [imgUrl, setImgUrl] = useState(null);
   const history = useHistory();
+  const username = useSelector((state) => state.username);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
   useEffect(() => {
-    (async () => {
-      let username = "lilastronautt";
-      try {
-        const jsonData = await fetch(
-          `http://localhost:3000/users/getuserdetails/${username}`
-        );
-        const res = await jsonData.json();
-        if (!res.length) return;
-        console.log(res);
-        const binaryData = new Uint8Array(res.profilepic.data);
-        let base64Data = "";
-        for (let i = 0; i < binaryData.length; i++) {
-          base64Data += String.fromCharCode(binaryData[i]);
+    isLoggedIn &&
+      (async () => {
+        try {
+          const jsonData = await fetch(
+            `http://localhost:3000/users/getuserdetails/${username}`
+          );
+          const res = await jsonData.json();
+          if (!res.length) return;
+          console.log(res);
+          const binaryData = new Uint8Array(res.profilepic.data);
+          let base64Data = "";
+          for (let i = 0; i < binaryData.length; i++) {
+            base64Data += String.fromCharCode(binaryData[i]);
+          }
+          base64Data = btoa(base64Data);
+          setImgUrl(`data:image/png;base64,${base64Data}`);
+        } catch (e) {
+          console.log(e);
         }
-        base64Data = btoa(base64Data);
-        setImgUrl(`data:image/png;base64,${base64Data}`);
-      } catch (e) {
-        console.log(e);
-      }
-    })();
+      })();
   }, []);
 
   const createPostOpenHandler = () => {
@@ -34,7 +37,7 @@ const CreatePost = ({ width, margin }) => {
   };
 
   const userProfileOpenHandler = () => {
-    history.push("/userprofile/lilastronautt/allblogs");
+    history.push(`/userprofile/${username}/allblogs`);
   };
 
   return (

@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BlogList from "../../lib/BlogList/BlogList";
 import Loader from "../../lib/Loader/Loader";
@@ -48,7 +49,7 @@ const AllBlogs = () => {
       {showLoader ||
         (Array.isArray(blogData) &&
           blogData?.map((el, index) => {
-            const binaryData = new Uint8Array(el.image.data);
+            const binaryData = new Uint8Array(el?.image?.data);
             let base64Data = "";
             for (let i = 0; i < binaryData.length; i++) {
               base64Data += String.fromCharCode(binaryData[i]);
@@ -63,6 +64,11 @@ const AllBlogs = () => {
                   blogId={el.blogId}
                   className="bloglist"
                 />
+                <div className="allblog_link">
+                  <Link to={`/editblog/${el.blogId}`}>
+                    <button>{`Edit ${el.title}`}</button>
+                  </Link>
+                </div>
               </div>
             );
           }))}

@@ -11,6 +11,24 @@
   z-index: 99;
 }
 
+.nav_logo__cont {
+  display: flex;
+  align-items: center;
+}
+
+.nav_hm__icon {
+  display: none;
+  height: 3rem;
+  width: 3rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.nav_hm__icon svg {
+  height: 100%;
+  width: 100%;
+}
+
 .nav_link__cont {
   list-style: none;
 }
@@ -22,7 +40,7 @@
 
 @media (max-width: 768px) {
   .nav {
-    padding: 0 2rem;
+    padding: 0 1.5rem;
   }
 
   .nav_link__cont li {
@@ -49,9 +67,14 @@
 }
 
 @media (max-width: 31rem) {
+  .nav_hm__icon {
+    display: block;
+  }
+
   .nav li {
     display: none;
   }
+
   .nav li:last-child {
     display: block;
   }
