@@ -12,6 +12,8 @@ router.post("/userdetails", upload.single("profilePic"), (req, res, next) => {
   if (!req.body) res.json({ msg: "error" });
   else {
     const profilePicData = req.file.buffer;
+    const dob = new Date(req.body.dob);
+    const isoDob = dob.toISOString().split("T")[0];
     db.query(
       "insert into userdetails values(?,?,?,?,?,?,?,?)",
       [
@@ -19,7 +21,7 @@ router.post("/userdetails", upload.single("profilePic"), (req, res, next) => {
         req.body.name,
         profilePicData,
         req.body.bio,
-        "2001-06-19",
+        isoDob,
         req.body.gender,
         req.body.mobileNum,
         req.body.emailAddress,

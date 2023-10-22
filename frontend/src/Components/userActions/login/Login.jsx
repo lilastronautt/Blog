@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { useHistory } from "react-router-dom";
 import { blogActions } from "../../../store/store";
-import Cookies from "js-cookie";
 import cancel from "../../../assets/cancel.png";
 
 import "./Login.css";
@@ -57,8 +56,10 @@ const Login = () => {
           setShowErrorMsg(() => true);
         } else {
           dispatch(blogActions.setUsername(loginFormData.username));
-          Cookies.set("username", loginFormData.username, { expires: 7 });
+          dispatch(blogActions.setLoginState(true));
+          localStorage.setItem("username", loginFormData.username);
           history.replace("/");
+          window.location.reload();
         }
       } catch (e) {
         setShowErrorMsg(() => true);

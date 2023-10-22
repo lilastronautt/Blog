@@ -14,6 +14,7 @@ const UpvoteBlogs = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const params = useParams();
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     (async () => {
@@ -32,7 +33,12 @@ const UpvoteBlogs = () => {
         }
         if (!jsonData[0]) {
           setShowErrorMsg(() => true);
-          setErrorMsg(() => "Uhoh, you haven't liked any post :)");
+          setErrorMsg(
+            () =>
+              `Uhoh, ${
+                username == params.username ? "you" : params.username
+              } haven't liked any post :)`
+          );
         }
       } catch (e) {
         setShowErrorMsg(() => true);

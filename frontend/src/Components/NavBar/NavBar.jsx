@@ -5,7 +5,6 @@ import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
 import { blogActions } from "../../store/store";
 import { SvgLoader, SvgProxy } from "react-svgmt";
 import hm from "../../assets/hm.svg";
-import Cookies from "js-cookie";
 import Backdrop from "../../lib/Backdrop/Backdrop";
 import "./NavBar.css";
 
@@ -29,7 +28,7 @@ const NavBar = () => {
       dispatch(blogActions.hamburgerOptions(false));
     }
 
-    const savedUsername = Cookies.get("username");
+    const savedUsername = localStorage.getItem("username");
     if (savedUsername) {
       dispatch(blogActions.setLoginState(true));
       dispatch(blogActions.setUsername(savedUsername));
@@ -76,7 +75,11 @@ const NavBar = () => {
               Create blog
             </NavLink>
           </li>
-          <li>
+          <li
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
             <NavLink
               className="routerLink"
               to={`/userprofile/${username}/allblogs`}

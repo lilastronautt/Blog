@@ -1,6 +1,6 @@
 import DOMPurify from "dompurify";
 import { SvgLoader, SvgProxy } from "react-svgmt";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import "./HomePageList.css";
@@ -24,12 +24,16 @@ const HomePageList = ({
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [sliceLength, setSliceLength] = useState(0);
   const username = useSelector((state) => state.username);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
 
   const openBlogHandler = () => {
     history.push(`/blogdetail/${blogId}`);
   };
 
   const upvotesHandler = () => {
+    if (!isLoggedIn) {
+      history.push("/login");
+    }
     (async () => {
       const req = await fetch(
         `http://localhost:3000/blog/upvote/${blogId}?username=${username}`,
@@ -43,19 +47,22 @@ const HomePageList = ({
     })();
   };
 
-  const downvotesHandler = () => {
-    (async () => {
-      const req = await fetch(
-        `http://localhost:3000/blog/downvote/${blogId}?username=${username}`,
-        {
-          method: "POST",
-        }
-      );
-      const res = await req.json();
-      console.log(res[0].downvotes);
-      setDownvotes(res[0].downvotes);
-    })();
-  };
+  // const downvotesHandler = () => {
+  //   if (!isLoggedIn) {
+  //     history.push("/login");
+  //   }
+  //   (async () => {
+  //     const req = await fetch(
+  //       `http://localhost:3000/blog/downvote/${blogId}?username=${username}`,
+  //       {
+  //         method: "POST",
+  //       }
+  //     );
+  //     const res = await req.json();
+  //     console.log(res[0].downvotes);
+  //     setDownvotes(res[0].downvotes);
+  //   })();
+  // };
 
   useEffect(() => {
     const handleResize = () => {
@@ -93,7 +100,7 @@ const HomePageList = ({
             </SvgLoader>
           </div>
           <div>{upvotes1}</div>
-          <div>{downvotes1}</div>
+          {/* <div>{downvotes1}</div>
           <div
             className="hpl_action__imgcont hpl_down__svg"
             onClick={downvotesHandler}
@@ -101,7 +108,7 @@ const HomePageList = ({
             <SvgLoader path={downarrow}>
               <SvgProxy selector="#Star" />
             </SvgLoader>
-          </div>
+          </div> */}
         </div>
         <div onClick={openBlogHandler}>
           <h2>{title}</h2>

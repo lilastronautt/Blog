@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
 import nodp from "../../assets/nodp.jpg";
 import "./CreatePost.css";
 
 const CreatePost = ({ width, margin }) => {
   const [imgUrl, setImgUrl] = useState(null);
   const history = useHistory();
-  const username = useSelector((state) => state.username);
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const username = localStorage.getItem("username");
+  const params = useParams();
+  const usernamR = params.username || username;
   useEffect(() => {
-    isLoggedIn &&
+    username &&
       (async () => {
         try {
           const jsonData = await fetch(
-            `http://localhost:3000/users/getuserdetails/${username}`
+            `http://localhost:3000/users/getuserdetails/${usernamR}`
           );
           const res = await jsonData.json();
-          if (!res.length) return;
-          console.log(res);
+          if (!res.username) return;
+
           const binaryData = new Uint8Array(res.profilepic.data);
           let base64Data = "";
           for (let i = 0; i < binaryData.length; i++) {
@@ -37,7 +37,7 @@ const CreatePost = ({ width, margin }) => {
   };
 
   const userProfileOpenHandler = () => {
-    history.push(`/userprofile/${username}/allblogs`);
+    history.push(`/userprofile/${usernamR}/allblogs`);
   };
 
   return (

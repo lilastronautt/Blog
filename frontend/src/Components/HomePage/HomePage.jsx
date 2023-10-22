@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Loader from "../../lib/Loader/Loader";
 import CreatePost from "../../lib/CreatePost/CreatePost";
 import HomePageList from "../../lib/HomePageList/HomePageList";
@@ -23,7 +23,17 @@ const HomePage = () => {
       try {
         const res = await fetch(`http://localhost:3000/blog/getallblogs`);
         const jsonData = await res.json();
-        setBlogData(() => jsonData);
+        if (jsonData.length != 1) {
+          const array = jsonData; // Get a reference to the original array
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]; // Swap elements in the original array
+          }
+          setBlogData([...array]);
+        } else {
+          setBlogData(() => jsonData);
+        }
+
         setShowLoader(false);
         if (jsonData.msg == "error") {
           setShowErrorMsg(() => true);

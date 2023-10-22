@@ -1,6 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+
 import { useSelector } from "react-redux";
 import Loader from "../../lib/Loader/Loader";
 import DOMPurify from "dompurify";
@@ -26,7 +26,8 @@ const BlogDetail = () => {
   const [showErrorMsg, setShowErrorMsg] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const username = useSelector((state) => state.username);
-  console.log(username);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+
   useEffect(() => {
     if (!blogData?.author) {
       (async () => {
@@ -72,7 +73,7 @@ const BlogDetail = () => {
           const formattedDate = `${monthName} ${day} '${year}`;
           setBlogDate(() => formattedDate);
           setShowLoaderF(() => false);
-          console.log(res);
+
           if (res.msg == "error") {
             setShowErrorMsg(() => true);
             setErrorMsg(() => "something went wrong!");
@@ -87,7 +88,6 @@ const BlogDetail = () => {
         } catch (e) {
           setShowErrorMsg(() => true);
           setErrorMsg(() => "something went wrong");
-          console.log(e);
         }
       })();
     }
@@ -115,10 +115,13 @@ const BlogDetail = () => {
   }, [blogData]);
 
   const openUserProfileHandler = () => {
-    history.push(`/userprofile/${blogData.author}`);
+    history.push(`/userprofile/${blogData.author}/allblogs`);
   };
 
   const upvotesHandler = () => {
+    if (!isLoggedIn) {
+      history.push("/login");
+    }
     (async () => {
       const req = await fetch(
         `http://localhost:3000/blog/upvote/${params.blogId}?username=${username}`,
@@ -132,19 +135,22 @@ const BlogDetail = () => {
     })();
   };
 
-  const downvotesHandler = () => {
-    (async () => {
-      const req = await fetch(
-        `http://localhost:3000/blog/downvote/${params.blogId}?username=${username}`,
-        {
-          method: "POST",
-        }
-      );
-      const res = await req.json();
+  // const downvotesHandler = () => {
+  //   if (!isLoggedIn) {
+  //     history.push("/login");
+  //   }
+  //   (async () => {
+  //     const req = await fetch(
+  //       `http://localhost:3000/blog/downvote/${params.blogId}?username=${username}`,
+  //       {
+  //         method: "POST",
+  //       }
+  //     );
+  //     const res = await req.json();
 
-      setDownvotes(res[0].downvotes);
-    })();
-  };
+  //     setDownvotes(res[0].downvotes);
+  //   })();
+  // };
 
   return (
     <section className="blogdetail_cont">
@@ -176,7 +182,7 @@ const BlogDetail = () => {
               <div>{upvotes}</div>
             </div>
 
-            <div
+            {/* <div
               className="bd_action__imgcont bd_down__svg"
               onClick={downvotesHandler}
             >
@@ -184,7 +190,7 @@ const BlogDetail = () => {
                 <SvgProxy selector="#Star" />
               </SvgLoader>
               <div>{downvotes}</div>
-            </div>
+            </div> */}
           </div>
           <div className="blogdetail_img__cont">
             <img src={imgDataB} />

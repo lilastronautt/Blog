@@ -1,6 +1,4 @@
 import { Switch, Route, Redirect } from "react-router-dom";
-import Cookies from "js-cookie";
-import { useEffect } from "react";
 import NavBar from "../Components/NavBar/NavBar";
 import Login from "../Components/userActions/login/Login";
 import Register from "../Components/userActions/register/Register";
@@ -18,7 +16,8 @@ import EditBlog from "../Components/EditBlog/EditBlog";
 import { useSelector } from "react-redux";
 
 const Pages = () => {
-  const isLogedIn = useSelector((state) => state.isLoggedIn);
+  const isLogedIn = localStorage.getItem("username");
+
   const username = useSelector((state) => state.username);
   return (
     <>
@@ -67,7 +66,7 @@ const Pages = () => {
           )}
         </Route>
         <Route path="/blogdetail/:blogId">
-          {!isLogedIn ? <Redirect to="/login" /> : <BlogDetail />}
+          <BlogDetail />
         </Route>
         <Route path="/editblog/:blogId">
           {!isLogedIn ? <Redirect to="/login" /> : <EditBlog />}

@@ -34,7 +34,10 @@ const CreateBlog = () => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: blogImageHandler,
-    accept: "image/*", // Specify accepted file types (in this case, images)
+    accept: {
+      "image/jpeg": [],
+      "image/png": [],
+    }, // Specify accepted file types (in this case, images)
   });
 
   // async func for taking inputs on every click on react-quill editor

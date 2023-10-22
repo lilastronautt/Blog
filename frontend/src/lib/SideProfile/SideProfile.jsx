@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import Loader from "../Loader/Loader";
 
 import "./SideProfile.css";
 
-const SideProfile = ({ username }) => {
+const SideProfile = () => {
   //for saving the data after it is fetched from the database
   const [data, setData] = useState({});
 
@@ -16,12 +17,14 @@ const SideProfile = ({ username }) => {
 
   //for showing loader till the time the async func runs
   const [showLoader, setShowLoader] = useState(true);
-  const isloggedIn = useSelector((state) => state.isLoggedIn);
+  const username = localStorage.getItem("username");
+  const params = useParams();
+  const usernamR = params.username || username;
   useEffect(() => {
-    isloggedIn &&
+    username &&
       (async () => {
         const jsonData = await fetch(
-          `http://localhost:3000/users/getuserdetails/${username}`
+          `http://localhost:3000/users/getuserdetails/${usernamR}`
         );
         const res = await jsonData.json();
         setData(() => res);

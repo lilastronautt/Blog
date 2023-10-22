@@ -1,12 +1,15 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import SideProfile from "../../lib/SideProfile/SideProfile";
 import CreatePost from "../../lib/CreatePost/CreatePost";
 
 import "./UserProfile.css";
 
 const MyProfile = () => {
-  const username = useSelector((state) => state.username);
+  const params = useParams();
+  const username = params.username;
+  const usernameR = localStorage.getItem("username");
   return (
     <>
       <SideProfile username={username} />
@@ -29,7 +32,7 @@ const MyProfile = () => {
               Upvoted blogs
             </NavLink>
           </nav>
-          <CreatePost width={100} margin={2} />
+          {usernameR == username && <CreatePost width={100} margin={2} />}
         </div>
       </section>
     </>

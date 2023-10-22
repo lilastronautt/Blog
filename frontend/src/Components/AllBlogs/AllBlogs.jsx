@@ -15,6 +15,7 @@ const AllBlogs = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const params = useParams();
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     (async () => {
@@ -33,7 +34,12 @@ const AllBlogs = () => {
         }
         if (!jsonData[0]) {
           setShowErrorMsg(() => true);
-          setErrorMsg(() => "Uhoh, you haven't posted anything :)");
+          setErrorMsg(
+            () =>
+              `Uhoh, ${
+                username == params.username ? "you" : params.username
+              } haven't posted anything :)`
+          );
         }
       } catch (e) {
         setShowErrorMsg(() => true);
@@ -64,11 +70,13 @@ const AllBlogs = () => {
                   blogId={el.blogId}
                   className="bloglist"
                 />
-                <div className="allblog_link">
-                  <Link to={`/editblog/${el.blogId}`}>
-                    <button>{`Edit ${el.title}`}</button>
-                  </Link>
-                </div>
+                {username == params.username && (
+                  <div className="allblog_link">
+                    <Link to={`/editblog/${el.blogId}`}>
+                      <button>{`Edit ${el.title}`}</button>
+                    </Link>
+                  </div>
+                )}
               </div>
             );
           }))}

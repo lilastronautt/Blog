@@ -20,6 +20,15 @@ const HamburgerMenu = () => {
       <ul className="hm_cont__list">
         <li onClick={closeHamburgerHandler}>
           <NavLink
+            to="/"
+            className="routerLink"
+            activeClassName="routerLink_active"
+          >
+            Homepage
+          </NavLink>
+        </li>
+        <li onClick={closeHamburgerHandler}>
+          <NavLink
             to="/createblog"
             className="routerLink"
             activeClassName="routerLink_active"

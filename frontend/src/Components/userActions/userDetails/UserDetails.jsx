@@ -73,7 +73,10 @@ const UserDetails = () => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: detailsPicHan,
-    accept: "image/*", // Specify accepted file types (in this case, images)
+    accept: {
+      "image/jpeg": [],
+      "image/png": [],
+    }, // Specify accepted file types (in this case, images)
   });
 
   // actions to be performed when the user details form is usbmitted
@@ -90,6 +93,7 @@ const UserDetails = () => {
       formData1.append("bio", formData.bio);
       formData1.append("profilePic", formData.profilePic);
       formData1.append("dob", formData.dob);
+
       try {
         const req = await fetch("http://localhost:3000/users/userdetails", {
           method: "POST",
