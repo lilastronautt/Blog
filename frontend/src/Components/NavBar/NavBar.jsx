@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
@@ -9,6 +9,7 @@ import Backdrop from "../../lib/Backdrop/Backdrop";
 import "./NavBar.css";
 
 const NavBar = () => {
+  const params = useParams();
   const dispatch = useDispatch();
   const hamburger = useSelector((state) => state.hamburger);
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
@@ -77,7 +78,7 @@ const NavBar = () => {
           </li>
           <li
             onClick={() => {
-              window.location.reload();
+              if (params.username != username) window.location.reload();
             }}
           >
             <NavLink
