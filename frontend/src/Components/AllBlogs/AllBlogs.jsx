@@ -21,7 +21,7 @@ const AllBlogs = () => {
     (async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/blog/getuserallblogsdetails/${params.username}`
+          `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/getuserallblogsdetails/${params.username}`
         );
         const jsonData = await res.json();
         setBlogData(() => jsonData);
@@ -55,16 +55,10 @@ const AllBlogs = () => {
       {showLoader ||
         (Array.isArray(blogData) &&
           blogData?.map((el, index) => {
-            const binaryData = new Uint8Array(el?.image?.data);
-            let base64Data = "";
-            for (let i = 0; i < binaryData.length; i++) {
-              base64Data += String.fromCharCode(binaryData[i]);
-            }
-            base64Data = btoa(base64Data);
             return (
               <div key={index}>
                 <BlogList
-                  imgUrl={`data:image/png;base64,${base64Data}`}
+                  imgUrl={el.image}
                   title={el.title}
                   textCont={el.content}
                   blogId={el.blogId}

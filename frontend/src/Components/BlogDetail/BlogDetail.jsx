@@ -13,8 +13,6 @@ import "./BlogDetail.css";
 const BlogDetail = () => {
   const [blogData, setBlogData] = useState({});
   const [userData, setUserData] = useState({});
-  const [imgDataB, setImgDataB] = useState("");
-  const [imgDataU, setImgDataU] = useState("");
   const [blogDate, setBlogDate] = useState();
   const [showLoaderF, setShowLoaderF] = useState(true);
   const [showLoaderU, setShowLoaderU] = useState(true);
@@ -33,17 +31,11 @@ const BlogDetail = () => {
       (async () => {
         try {
           const req = await fetch(
-            `http://localhost:3000/blog/getblogdetails/${params.blogId}`
+            `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/getblogdetails/${params.blogId}`
+            //`http://localhost:3000/blog/getblogdetails/${params.blogId}`
           );
           const res = await req.json();
           setBlogData(() => res[0]);
-          const binaryData = new Uint8Array(res[0]?.image.data);
-          let base64Data = "";
-          for (let i = 0; i < binaryData.length; i++) {
-            base64Data += String.fromCharCode(binaryData[i]);
-          }
-          base64Data = btoa(base64Data);
-          setImgDataB(`data:image/png;base64,${base64Data}`);
           setUpvotes(() => res[0]?.upvotes);
           setDownvotes(() => res[0]?.downvotes);
           const date = new Date(res[0]?.timestamp);
@@ -96,18 +88,10 @@ const BlogDetail = () => {
       (async () => {
         try {
           const jsonData = await fetch(
-            `http://localhost:3000/users/getuserdetails/${blogData?.author}`
+            `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/users/getuserdetails/${blogData?.author}`
           );
           const res = await jsonData.json();
           setUserData(() => res);
-          // converting the data to base64
-          const binaryData = new Uint8Array(res?.profilepic?.data);
-          let base64Data = "";
-          for (let i = 0; i < binaryData.length; i++) {
-            base64Data += String.fromCharCode(binaryData[i]);
-          }
-          base64Data = btoa(base64Data);
-          setImgDataU(`data:image/png;base64,${base64Data}`);
           setShowLoaderU(() => false);
         } catch (e) {}
       })();
@@ -124,7 +108,7 @@ const BlogDetail = () => {
     }
     (async () => {
       const req = await fetch(
-        `http://localhost:3000/blog/upvote/${params.blogId}?username=${username}`,
+        `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/upvote/${params.blogId}?username=${username}`,
         {
           method: "POST",
         }
@@ -166,7 +150,7 @@ const BlogDetail = () => {
                 className="bd_userinfo__imgcont"
                 onClick={openUserProfileHandler}
               >
-                <img src={imgDataU} />
+                <img src={userData?.profilepic} />
               </div>
               <div className="bd_userinfo__data">
                 <h3>{userData?.fullname}</h3>
@@ -193,7 +177,7 @@ const BlogDetail = () => {
             </div> */}
           </div>
           <div className="blogdetail_img__cont">
-            <img src={imgDataB} />
+            <img src={blogData?.image} />
           </div>
           <p
             dangerouslySetInnerHTML={{

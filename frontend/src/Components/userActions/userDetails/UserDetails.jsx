@@ -80,43 +80,65 @@ const UserDetails = () => {
   });
 
   // actions to be performed when the user details form is usbmitted
-  const detailsFormHandler = () => {
+  const detailsFormHandler = async () => {
     setBtnMsg(() => "Submitting ...");
     setErrorMsg(() => false);
-    (async () => {
-      const formData1 = new FormData();
-      formData1.append("username", userNameForDetails);
-      formData1.append("name", formData.name);
-      formData1.append("mobileNum", formData.mobileNum);
-      formData1.append("emailAddress", formData.emailAddress);
-      formData1.append("gender", formData.gender);
-      formData1.append("bio", formData.bio);
-      formData1.append("profilePic", formData.profilePic);
-      formData1.append("dob", formData.dob);
+    const imageFormData = new FormData();
+    imageFormData.append("file", formData.profilePic);
+    imageFormData.append("upload_preset", "poxoiska");
+    imageFormData.append("cloud_name", "dppoh8lvz");
 
-      try {
-        const req = await fetch("http://localhost:3000/users/userdetails", {
-          method: "POST",
-          body: formData1,
-        });
-        const res = await req.json();
-
-        if (res.msg == "error") {
-          setErrorMsg(() => true);
-        } else {
-          setSucMsg(() => true);
-          setTimeout(() => {
-            setSucMsg(() => false);
-          }, 1500);
-          setTimeout(() => {
-            history.replace("/login");
-          }, 2000);
-        }
-      } catch (e) {
-        console.log(e);
-        setErrorMsg(() => true);
+    const cloudinaryResponse = await fetch(
+      "https://api.cloudinary.com/v1_1/dppoh8lvz/image/upload",
+      {
+        method: "POST",
+        body: imageFormData,
       }
-    })();
+    );
+
+    if (cloudinaryResponse.ok) {
+      const cloudinaryData = await cloudinaryResponse.json();
+      const imageUrl = cloudinaryData.secure_url;
+      (async () => {
+        const formData1 = {
+          username: userNameForDetails,
+          name: formData.name,
+          mobileNum: formData.mobileNum,
+          emailAddress: formData.emailAddress,
+          gender: formData.gender,
+          bio: formData.bio,
+          profilePic: imageUrl,
+          dob: formData.dob,
+        };
+        try {
+          const req = await fetch(
+            "https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/users/userdetails",
+            //"http://localhost:3000/users/userdetails",
+            {
+              method: "POST",
+              body: JSON.stringify(formData1),
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+          const res = await req.json();
+
+          if (res.msg == "error") {
+            setErrorMsg(() => true);
+          } else {
+            setSucMsg(() => true);
+            setTimeout(() => {
+              setSucMsg(() => false);
+            }, 1500);
+            setTimeout(() => {
+              history.replace("/login");
+            }, 2000);
+          }
+        } catch (e) {
+          console.log(e);
+          setErrorMsg(() => true);
+        }
+      })();
+    }
     setBtnMsg(() => "Submit details");
   };
 

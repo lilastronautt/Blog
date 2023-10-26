@@ -7,7 +7,6 @@ router.post("/login", (req, res, next) => {
     "select hasdetails from users where username = ?",
     [req.body.username],
     (error, results) => {
-      console.log(error);
       if (results[0]?.hasdetails != 1) {
         res.json({ msg: "no" });
       } else {

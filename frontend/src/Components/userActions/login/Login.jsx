@@ -39,14 +39,17 @@ const Login = () => {
 
     (async () => {
       try {
-        const jsonRes = await fetch("http://localhost:3000/users/login", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(loginFormData),
-        });
+        const jsonRes = await fetch(
+          "https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/users/login",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(loginFormData),
+          }
+        );
         const res = await jsonRes.json();
         console.log(res);
         if (res.msg == "no") {

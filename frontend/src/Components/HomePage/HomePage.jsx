@@ -21,15 +21,18 @@ const HomePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`http://localhost:3000/blog/getallblogs`);
+        const res = await fetch(
+          `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/getallblogs`
+        );
         const jsonData = await res.json();
+
         if (jsonData.length != 1) {
           const array = jsonData; // Get a reference to the original array
           for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]]; // Swap elements in the original array
           }
-          setBlogData([...array]);
+          setBlogData(() => [...array]);
         } else {
           setBlogData(() => jsonData);
         }
@@ -48,6 +51,7 @@ const HomePage = () => {
               "Uhoh,looks like this site dosent have any blog, WHAT , go create one??:)"
           );
         }
+        console.log(blogData);
       } catch (e) {
         setShowErrorMsg(() => true);
         setErrorMsg(() => "something went wrong");
@@ -78,20 +82,12 @@ const HomePage = () => {
         {showLoader && <Loader dimension={4} />}
         {showLoader ||
           blogData?.map((el, index) => {
-            // converting the buffer data to base64
-            const binaryData = new Uint8Array(el.image.data);
-            let base64Data = "";
-            for (let i = 0; i < binaryData.length; i++) {
-              base64Data += String.fromCharCode(binaryData[i]);
-            }
-            base64Data = btoa(base64Data);
-
             return (
               <div key={index}>
                 <HomePageList
                   title={el.title}
                   textCont={el.content}
-                  img={`data:image/png;base64,${base64Data}`}
+                  img={el.image}
                   upvotes={el.upvotes}
                   downvotes={el.downvotes}
                   blogId={el.blogId}

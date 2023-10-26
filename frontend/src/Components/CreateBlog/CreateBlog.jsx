@@ -19,7 +19,7 @@ const CreateBlog = () => {
 
   const history = useHistory();
   const username = useSelector((state) => state.username);
-  // sav the clicks on every input
+  // save the clicks on every input
   const onChangeTitle = (event) => {
     setBlogD((prev) => {
       return { ...prev, title: event.target.value };
@@ -51,7 +51,7 @@ const CreateBlog = () => {
   };
 
   //  actions to be performed when the user is finished typing
-  const saveBlogDetailsBtn = (event) => {
+  const saveBlogDetailsBtn = async (event) => {
     setBtnMsg(() => "POSTING...");
     event.preventDefault();
     setSBHFormState(() => false);
@@ -61,34 +61,69 @@ const CreateBlog = () => {
       setShowrrorMsg(() => true);
       return;
     }
-    const formData = new FormData();
-    formData.append("author", username);
-    formData.append("title", BlogD.title);
-    formData.append("img", BlogD.img);
-    formData.append("textCont", BlogD.textCont);
+
+    // const formData = new FormData();
+    // formData.append("author", username);
+    // formData.append("title", BlogD.title);
+    // formData.append("img", BlogD.img);
+    // formData.append("textCont", BlogD.textCont);
+
     try {
       setShowrrorMsg(() => false);
-      (async () => {
-        const jsonData = await fetch("http://localhost:3000/blog/blogdetails", {
+      const imageFormData = new FormData();
+      imageFormData.append("file", BlogD.img);
+      imageFormData.append("upload_preset", "poxoiska");
+      imageFormData.append("cloud_name", "dppoh8lvz");
+
+      const cloudinaryResponse = await fetch(
+        "https://api.cloudinary.com/v1_1/dppoh8lvz/image/upload",
+        {
           method: "POST",
-          body: formData,
-        });
-        const res = await jsonData.json();
-        setBtnMsg(() => "POST");
-        if (res.msg == "okay") {
-          setShowSucMsg(() => true);
-          setTimeout(() => {
-            setShowSucMsg(() => false);
-          }, 1500);
-          setTimeout(() => {
-            history.replace(`/userprofile/${username}/allblogs`);
-          }, 2000);
-        } else {
-          setShowrrorMsg(() => true);
+          body: imageFormData,
         }
-      })();
+      );
+
+      if (cloudinaryResponse.ok) {
+        const cloudinaryData = await cloudinaryResponse.json();
+        const imageUrl = cloudinaryData.secure_url;
+
+        const postData = {
+          author: username,
+          title: BlogD.title,
+          textCont: BlogD.textCont,
+          imageUrl: imageUrl,
+        };
+        (async () => {
+          const jsonData = await fetch(
+            "https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/blogdetails",
+            //"http://localhost:3000/blog/blogdetails",
+            {
+              method: "POST",
+              body: JSON.stringify(postData),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const res = await jsonData.json();
+          console.log(res);
+          setBtnMsg(() => "POST");
+          if (res.msg == "okay") {
+            setShowSucMsg(() => true);
+            setTimeout(() => {
+              setShowSucMsg(() => false);
+            }, 1500);
+            setTimeout(() => {
+              history.replace(`/userprofile/${username}/allblogs`);
+            }, 2000);
+          } else {
+            setShowrrorMsg(() => true);
+          }
+        })();
+      }
     } catch (e) {
       setShowrrorMsg(() => true);
+      setBtnMsg(() => "POST");
     } finally {
     }
   };

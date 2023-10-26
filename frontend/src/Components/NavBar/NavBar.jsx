@@ -5,6 +5,7 @@ import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
 import { blogActions } from "../../store/store";
 import { SvgLoader, SvgProxy } from "react-svgmt";
 import hm from "../../assets/hm.svg";
+import logo from "../../assets/logo.png";
 import Backdrop from "../../lib/Backdrop/Backdrop";
 import "./NavBar.css";
 
@@ -42,6 +43,12 @@ const NavBar = () => {
     };
   }, [windowWidth]);
 
+  const reloadprofilePageHandler = () => {
+    if (params.username != localStorage.getItem("username")) {
+      window.location.reload();
+    }
+  };
+
   return (
     <>
       <div>
@@ -63,7 +70,7 @@ const NavBar = () => {
             activeClassName="routerLink_active"
             to="/"
           >
-            blogging
+            <img src={logo} style={{ width: "6rem" }} />
           </NavLink>
         </div>
         <ul className="nav_link__cont">
@@ -76,11 +83,7 @@ const NavBar = () => {
               Create blog
             </NavLink>
           </li>
-          <li
-            onClick={() => {
-              if (params.username != username) window.location.reload();
-            }}
-          >
+          <li onClick={reloadprofilePageHandler}>
             <NavLink
               className="routerLink"
               to={`/userprofile/${username}/allblogs`}

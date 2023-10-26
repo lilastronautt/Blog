@@ -79,14 +79,17 @@ const Register = () => {
       (async () => {
         try {
           setBtnMsg(() => "Registering...");
-          const req = await fetch("http://localhost:3000/users/register", {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(registerFormData),
-          });
+          const req = await fetch(
+            "https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/users/register",
+            {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(registerFormData),
+            }
+          );
           const res = await req.json();
           if (res.msg == "error") {
             setErrorMsg(() => true);
@@ -121,7 +124,7 @@ const Register = () => {
     let timer = setTimeout(async () => {
       try {
         const usernamesRes = await fetch(
-          "http://localhost:3000/users/usernames"
+          "https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/users/usernames"
         );
         const data = await usernamesRes.json();
         if (!data) setShowLoader(() => false);

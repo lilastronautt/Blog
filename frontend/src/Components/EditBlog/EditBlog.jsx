@@ -13,6 +13,7 @@ const EditBlog = () => {
   const history = useHistory();
   const params = useParams();
   const username = useSelector((state) => state.username);
+  const [imgUp, setImgUp] = useState(false);
   // useState for saving the create blog details
   const [BlogD, setBlogD] = useState({
     blogId: params.blogId,
@@ -29,10 +30,12 @@ const EditBlog = () => {
     (async () => {
       try {
         const req = await fetch(
-          `http://localhost:3000/blog/getblogdetails/${params.blogId}`
+          `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/getblogdetails/${params.blogId}`
+          //`http://localhost:3000/blog/getblogdetails/${params.blogId}`
         );
         const res = await req.json();
         setBlogD(() => res[0]);
+        console.log(res);
         if (res.msg == "error") {
           setShowrrorMsg(() => true);
         }
@@ -53,6 +56,7 @@ const EditBlog = () => {
     setBlogD((prev) => {
       return { ...prev, image: event[0] };
     });
+    setImgUp(() => true);
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -74,7 +78,7 @@ const EditBlog = () => {
   };
 
   //  actions to be performed when the user is finished typing
-  const saveBlogDetailsBtn = (event) => {
+  const saveBlogDetailsBtn = async (event) => {
     setBtnMsg(() => "UPDATING...");
     event.preventDefault();
 
@@ -85,38 +89,94 @@ const EditBlog = () => {
       setShowrrorMsg(() => true);
       return;
     }
-    const formData = new FormData();
-    formData.append("blogId", BlogD.blogId);
-    formData.append("title", BlogD.title);
-    formData.append("img", BlogD.image);
-    formData.append("textCont", BlogD.content);
 
     try {
       setShowrrorMsg(() => false);
-      (async () => {
-        const jsonData = await fetch(
-          "http://localhost:3000/blog/updateblogdetails",
+      if (imgUp) {
+        console.log("run1");
+        const imageFormData = new FormData();
+        imageFormData.append("file", BlogD.image);
+        imageFormData.append("upload_preset", "poxoiska");
+        imageFormData.append("cloud_name", "dppoh8lvz");
+
+        const cloudinaryResponse = await fetch(
+          "https://api.cloudinary.com/v1_1/dppoh8lvz/image/upload",
           {
             method: "POST",
-            body: formData,
+            body: imageFormData,
           }
         );
-        const res = await jsonData.json();
-        setBtnMsg(() => "UPDATE");
-        if (res.msg == "okay") {
-          setShowSucMsg(() => true);
-          setTimeout(() => {
-            setShowSucMsg(() => false);
-          }, 1500);
-          setTimeout(() => {
-            history.replace(`/userprofile/${username}/allblogs`);
-          }, 2000);
-        } else {
-          setShowrrorMsg(() => true);
+
+        if (cloudinaryResponse.ok) {
+          const cloudinaryData = await cloudinaryResponse.json();
+          const imageUrl = cloudinaryData.secure_url;
+
+          const postData = {
+            title: BlogD.title,
+            textCont: BlogD.content,
+            imageUrl: imageUrl,
+            BlogId: BlogD.blogId,
+          };
+          (async () => {
+            const jsonData = await fetch(
+              //"https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/updateblogdetails",
+              "http://localhost:3000/blog/updateblogdetails",
+              {
+                method: "POST",
+                body: JSON.stringify(postData),
+                headers: { "Content-Type": "application/json" },
+              }
+            );
+            const res = await jsonData.json();
+            setBtnMsg(() => "UPDATE");
+            if (res.msg == "okay") {
+              setShowSucMsg(() => true);
+              setTimeout(() => {
+                setShowSucMsg(() => false);
+              }, 1500);
+              setTimeout(() => {
+                history.replace(`/userprofile/${username}/allblogs`);
+              }, 2000);
+            } else {
+              setShowrrorMsg(() => true);
+            }
+          })();
         }
-      })();
+      } else {
+        (async () => {
+          const postData = {
+            title: BlogD.title,
+            textCont: BlogD.content,
+            imageUrl: BlogD.image,
+            BlogId: BlogD.blogId,
+          };
+          const jsonData = await fetch(
+            //"https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/updateblogdetails",
+            "http://localhost:3000/blog/updateblogdetails",
+            {
+              method: "POST",
+              body: JSON.stringify(postData),
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+          const res = await jsonData.json();
+          setBtnMsg(() => "UPDATE");
+          if (res.msg == "okay") {
+            setShowSucMsg(() => true);
+            setTimeout(() => {
+              setShowSucMsg(() => false);
+            }, 1500);
+            setTimeout(() => {
+              history.replace(`/userprofile/${username}/allblogs`);
+            }, 2000);
+          } else {
+            setShowrrorMsg(() => true);
+          }
+        })();
+      }
     } catch (e) {
       setShowrrorMsg(() => true);
+      setBtnMsg(() => "UPDATE");
     }
   };
 

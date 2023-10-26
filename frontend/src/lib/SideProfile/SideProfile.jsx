@@ -9,9 +9,6 @@ const SideProfile = () => {
   //for saving the data after it is fetched from the database
   const [data, setData] = useState({});
 
-  // the img data after it is converted into base64 coz it is stored in buffer at db
-  const [imgUrl, setImgUrl] = useState(null);
-
   // formatted date
   const [formattedDate, setFormattedDate] = useState(null);
 
@@ -24,18 +21,10 @@ const SideProfile = () => {
     username &&
       (async () => {
         const jsonData = await fetch(
-          `http://localhost:3000/users/getuserdetails/${usernamR}`
+          `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/users/getuserdetails/${usernamR}`
         );
         const res = await jsonData.json();
         setData(() => res);
-        // converting the data to base64
-        const binaryData = new Uint8Array(res?.profilepic?.data);
-        let base64Data = "";
-        for (let i = 0; i < binaryData.length; i++) {
-          base64Data += String.fromCharCode(binaryData[i]);
-        }
-        base64Data = btoa(base64Data);
-        setImgUrl(`data:image/png;base64,${base64Data}`);
 
         //formatting the date
         const inputDate = new Date(res.dob);
@@ -55,7 +44,7 @@ const SideProfile = () => {
           {showLoader || (
             <>
               <div className="profile_cont__basicsImg">
-                <img src={imgUrl} alt="profile pic" />
+                <img src={data.profilepic} alt="profile pic" />
               </div>
               <h3>{data?.fullname}</h3>
               <h5>{data?.username}</h5>
@@ -66,7 +55,11 @@ const SideProfile = () => {
               <label>Email address</label>
               <h4>{data?.email_address}</h4>
               <label>Mobile Number</label>
-              <h4>{data?.mobile_number}</h4>
+              <h4>
+                {params.username != username
+                  ? "******" + data?.mobile_number.slice(-4)
+                  : data?.mobile_number}
+              </h4>
             </>
           )}
         </aside>

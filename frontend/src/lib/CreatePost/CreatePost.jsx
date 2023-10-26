@@ -14,18 +14,12 @@ const CreatePost = ({ width, margin }) => {
       (async () => {
         try {
           const jsonData = await fetch(
-            `http://localhost:3000/users/getuserdetails/${usernamR}`
+            `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/users/getuserdetails/${usernamR}`
           );
           const res = await jsonData.json();
           if (!res.username) return;
 
-          const binaryData = new Uint8Array(res.profilepic.data);
-          let base64Data = "";
-          for (let i = 0; i < binaryData.length; i++) {
-            base64Data += String.fromCharCode(binaryData[i]);
-          }
-          base64Data = btoa(base64Data);
-          setImgUrl(`data:image/png;base64,${base64Data}`);
+          setImgUrl(() => res.profilepic);
         } catch (e) {
           console.log(e);
         }

@@ -36,13 +36,12 @@ const HomePageList = ({
     }
     (async () => {
       const req = await fetch(
-        `http://localhost:3000/blog/upvote/${blogId}?username=${username}`,
+        `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/upvote/${blogId}?username=${username}`,
         {
           method: "POST",
         }
       );
       const res = await req.json();
-      console.log(res[0].upvotes);
       setUpvotes(res[0].upvotes);
     })();
   };

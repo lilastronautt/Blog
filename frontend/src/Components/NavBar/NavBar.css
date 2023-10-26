@@ -77,5 +77,6 @@
 
   .nav li:last-child {
     display: block;
+    font-size: 0.8rem;
   }
 }
