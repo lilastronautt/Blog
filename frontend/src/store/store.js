@@ -1,41 +1,39 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  showLogin: false,
-  showRegistration: false,
-  showBackdrop: false,
+  username: "none",
+  userNameForDetails: "",
   usernameExists: false,
   passNotEqual: false,
+  hamburger: false,
+  isLoggedIn: false,
+  reload: false,
 };
 
 const blogSlice = createSlice({
   name: "blog",
   initialState,
   reducers: {
-    showLoginModal(state, action) {
-      console.log(action.payload);
-      return { ...state, showLogin: action.payload };
-    },
-    showRegistrationModal(state, action) {
-      console.log(action.payload);
-      return { ...state, showRegistration: action.payload };
-    },
-    showBackdropModal(state, action) {
-      return { ...state, showBackdrop: action.payload };
-    },
-    closeAuth(state) {
-      return {
-        ...state,
-        showLogin: false,
-        showBackdrop: false,
-        showRegistration: false,
-      };
-    },
     usernameExists(state, action) {
       return { ...state, usernameExists: action.payload };
     },
     setPassNotEqual(state, action) {
       return { ...state, passNotEqual: action.payload };
+    },
+    hamburgerOptions(state, action) {
+      return { ...state, hamburger: action.payload };
+    },
+    setuserNameForDeatils(state, action) {
+      return { ...state, userNameForDetails: action.payload };
+    },
+    setUsername(state, action) {
+      return { ...state, username: action.payload };
+    },
+    setLoginState(state, action) {
+      return { ...state, isLoggedIn: action.payload };
+    },
+    profileClicked(state, action) {
+      return { ...state, reload: action.payload };
     },
   },
 });

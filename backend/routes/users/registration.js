@@ -10,10 +10,9 @@ router.post("/register", (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     db.query(
-      "insert into users values(?,?)",
-      [username, password],
+      "insert into users(username,password,hasdetails) values(?,?,?)",
+      [username, password, 0],
       (error, results, fields) => {
-        console.log(results);
         if (error) {
           res.json({ msg: "error" });
         } else {
@@ -29,7 +28,7 @@ router.post("/register", (req, res, next) => {
 router.get("/usernames", (req, res, next) => {
   db.query("SELECT username FROM users", [], (error, results, fields) => {
     if (!error) res.json(results);
-    else res.json("Something went wrong");
+    else res.json({ msg: "error" });
   });
 });
 

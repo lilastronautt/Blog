@@ -1,35 +1,109 @@
-import "./NavBar.css";
-import Login from "../userActions/login/Login";
-import Register from "../userActions/register/Register";
+import { NavLink, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
 import { blogActions } from "../../store/store";
-import UserDetails from "../userActions/userDetails/UserDetails";
+import { SvgLoader, SvgProxy } from "react-svgmt";
+import hm from "../../assets/hm.svg";
+import logo from "../../assets/logo.png";
+import Backdrop from "../../lib/Backdrop/Backdrop";
+import "./NavBar.css";
 
 const NavBar = () => {
+  const params = useParams();
   const dispatch = useDispatch();
-  const showLogin = useSelector((state) => state.showLogin);
-  const showBackdrop = useSelector((state) => state.showBackdrop);
-  const showRegistration = useSelector((state) => state.showRegistration);
-  const onClickHandler = () => {
-    dispatch(blogActions.showLoginModal(true));
-    dispatch(blogActions.showBackdropModal(true));
+  const hamburger = useSelector((state) => state.hamburger);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const username = useSelector((state) => state.username);
+
+  const showHamburgerMenu = () => {
+    dispatch(blogActions.hamburgerOptions(true));
+  };
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    if (windowWidth < 480) {
+      dispatch(blogActions.hamburgerOptions(false));
+    }
+
+    const savedUsername = localStorage.getItem("username");
+    if (savedUsername) {
+      dispatch(blogActions.setLoginState(true));
+      dispatch(blogActions.setUsername(savedUsername));
+    } else {
+      dispatch(blogActions.setLoginState(false));
+    }
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [windowWidth]);
+
+  const reloadprofilePageHandler = () => {
+    if (params.username != localStorage.getItem("username")) {
+      dispatch(blogActions.profileClicked(true));
+    }
   };
 
   return (
     <>
+      <div>
+        {hamburger && (
+          <>
+            <HamburgerMenu /> <Backdrop />
+          </>
+        )}
+      </div>
       <nav className="nav">
-        <div className="nav_logo__cont">Blog Website</div>
+        <div className="nav_logo__cont">
+          <div className="nav_hm__icon" onClick={showHamburgerMenu}>
+            <SvgLoader path={hm}>
+              <SvgProxy selector="#Star" />
+            </SvgLoader>
+          </div>
+          <NavLink
+            className="routerLink"
+            activeClassName="routerLink_active"
+            to="/"
+          >
+            <img src={logo} style={{ width: "6rem" }} />
+          </NavLink>
+        </div>
         <ul className="nav_link__cont">
-          <li>Something</li>
-          <li>Something</li>
-          <li>Something</li>
-          <li onClick={onClickHandler}>sign in</li>
+          <li>
+            <NavLink
+              className="routerLink"
+              to="/createblog"
+              activeClassName="routerLink_active"
+            >
+              Create blog
+            </NavLink>
+          </li>
+          <li onClick={reloadprofilePageHandler}>
+            <NavLink
+              className="routerLink"
+              to={`/userprofile/${username}/allblogs`}
+              activeClassName="routerLink_active"
+            >
+              Profile
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className="routerLink routerLink_alt"
+              to={isLoggedIn ? "/logout" : "/login"}
+              activeClassName="routerLink_active routerLink_active__alt"
+            >
+              {isLoggedIn ? "Sign out" : "Sign in"}
+            </NavLink>
+          </li>
         </ul>
       </nav>
-      {showLogin && <Login />}
-      {showRegistration && <Register />}
-      {showBackdrop && <div className="backdrop"></div>}
-      <UserDetails />
     </>
   );
 };
