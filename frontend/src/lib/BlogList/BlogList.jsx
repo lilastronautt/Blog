@@ -8,6 +8,7 @@ const BlogList = ({ blogId, title, textCont, imgUrl, className }) => {
   const history = useHistory();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [sliceLength, setSliceLength] = useState(0);
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);

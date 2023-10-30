@@ -33,17 +33,18 @@ const HomePageList = ({
   const upvotesHandler = () => {
     if (!isLoggedIn) {
       history.push("/login");
+    } else {
+      (async () => {
+        const req = await fetch(
+          `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/upvote/${blogId}?username=${username}`,
+          {
+            method: "POST",
+          }
+        );
+        const res = await req.json();
+        setUpvotes(res[0].upvotes);
+      })();
     }
-    (async () => {
-      const req = await fetch(
-        `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/upvote/${blogId}?username=${username}`,
-        {
-          method: "POST",
-        }
-      );
-      const res = await req.json();
-      setUpvotes(res[0].upvotes);
-    })();
   };
 
   // const downvotesHandler = () => {

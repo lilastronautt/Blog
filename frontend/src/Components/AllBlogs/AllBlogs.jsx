@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import BlogList from "../../lib/BlogList/BlogList";
 import Loader from "../../lib/Loader/Loader";
 
 const AllBlogs = () => {
   //saving the blog data after it is fetched from db
   const [blogData, setBlogData] = useState([]);
-
+  const reload = useSelector((state) => state.reload);
   //for showing loader till the time the async func runs
   const [showLoader, setShowLoader] = useState(true);
 
@@ -26,7 +27,6 @@ const AllBlogs = () => {
         const jsonData = await res.json();
         setBlogData(() => jsonData);
         setShowLoader(() => false);
-
         if (jsonData.msg == "error") {
           setShowErrorMsg(() => true);
           setErrorMsg(() => "something went wrong!");
@@ -46,7 +46,7 @@ const AllBlogs = () => {
         setErrorMsg(() => "something went wrong");
       }
     })();
-  }, []);
+  }, [reload, blogData]);
 
   return (
     <>

@@ -7,6 +7,7 @@ const initialState = {
   passNotEqual: false,
   hamburger: false,
   isLoggedIn: false,
+  reload: false,
 };
 
 const blogSlice = createSlice({
@@ -30,6 +31,9 @@ const blogSlice = createSlice({
     },
     setLoginState(state, action) {
       return { ...state, isLoggedIn: action.payload };
+    },
+    profileClicked(state, action) {
+      return { ...state, reload: action.payload };
     },
   },
 });

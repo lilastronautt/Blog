@@ -15,6 +15,7 @@ const NavBar = () => {
   const hamburger = useSelector((state) => state.hamburger);
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const username = useSelector((state) => state.username);
+
   const showHamburgerMenu = () => {
     dispatch(blogActions.hamburgerOptions(true));
   };
@@ -45,7 +46,7 @@ const NavBar = () => {
 
   const reloadprofilePageHandler = () => {
     if (params.username != localStorage.getItem("username")) {
-      window.location.reload();
+      dispatch(blogActions.profileClicked(true));
     }
   };
 

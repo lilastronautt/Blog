@@ -35,7 +35,7 @@ const EditBlog = () => {
         );
         const res = await req.json();
         setBlogD(() => res[0]);
-        console.log(res);
+
         if (res.msg == "error") {
           setShowrrorMsg(() => true);
         }

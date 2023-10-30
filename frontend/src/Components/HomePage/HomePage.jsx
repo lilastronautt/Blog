@@ -51,13 +51,14 @@ const HomePage = () => {
               "Uhoh,looks like this site dosent have any blog, WHAT , go create one??:)"
           );
         }
-        console.log(blogData);
       } catch (e) {
         setShowErrorMsg(() => true);
         setErrorMsg(() => "something went wrong");
       }
     })(); //IIFE for getting all the blog details
+  }, []);
 
+  useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
@@ -68,7 +69,6 @@ const HomePage = () => {
     } else {
       setDim(() => 50);
     }
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };

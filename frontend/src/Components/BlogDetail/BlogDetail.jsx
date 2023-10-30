@@ -105,18 +105,19 @@ const BlogDetail = () => {
   const upvotesHandler = () => {
     if (!isLoggedIn) {
       history.push("/login");
-    }
-    (async () => {
-      const req = await fetch(
-        `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/upvote/${params.blogId}?username=${username}`,
-        {
-          method: "POST",
-        }
-      );
-      const res = await req.json();
+    } else {
+      (async () => {
+        const req = await fetch(
+          `https://2y632020u3.execute-api.eu-north-1.amazonaws.com/prod/blog/upvote/${params.blogId}?username=${username}`,
+          {
+            method: "POST",
+          }
+        );
+        const res = await req.json();
 
-      setUpvotes(res[0].upvotes);
-    })();
+        setUpvotes(res[0].upvotes);
+      })();
+    }
   };
 
   // const downvotesHandler = () => {
